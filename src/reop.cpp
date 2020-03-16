@@ -30,7 +30,7 @@ void print_help();
 
 /*
 
-create_remap [opts] INPUT_PATTERN OUTPUT_PATTERN [INPUT ... ]
+roep [opts] INPUT_PATTERN OUTPUT_PATTERN [INPUT ... ]
 
 */
 
@@ -179,7 +179,7 @@ void replace_all(string& s, const string& sub_str, const string& replace_str)
 void print_help()
 {
     cout << "\n" 
-        << FMT_BOLD << "create_remap" << FMT_RESET << " "
+        << FMT_BOLD << "roep" << FMT_RESET << " "
         << "[OPTIONS] " 
         << FMT_UNDERLINE << "INPUT_PATTERN"  << FMT_RESET << " " 
         << FMT_UNDERLINE << "OUTPUT_PATTERN" << FMT_RESET << " "
@@ -188,34 +188,9 @@ void print_help()
 
 /*
 USAGE
-./create_remap -f "<track>: <artist> - <date> - <album> - <title>.<type>" "/<artist>/<date> - <album>/<track>. <title>.<type>" "remap_test_case_file_names.txt"
-./create_remap "<track>. <artist>-<album>-<title>.<type>" "/<artist>/<album>/<track>. <title>.<type>" "$(./create_remap "/<artist>/<album>/<track>. <title>.<type>"  "<track>. <artist>-<album>-<title>.<type>" "/Pink Floyd/The Wall/10. Run Like Hell.mp3")"
 
-
-OLD USAGE  !!!WRONG ARG ORDER!!:
-./create_remap "<track>. <artist>-<album>-<title>.<type>" "10. The Rolling Stones-Exile On Main Street-Brown Sugar.mp3" "<track>: <title>.<type>"
-./create_remap "<first> <last>:<phone> <sex>" "Alfred E. Numan:555-555-9696 M" "Sex : <sex>    Name :<last>, <first>    Phone : <phone>"
-./create_remap "<track>. <artist> - <album> - <title>.<type>"  "10. The Rolling Stones - Exile On Main Street - Brown Sugar.mp3"  "/<artist>/<album>/<track>. <title>.<type>"
-./create_remap "/<artist>/<album>" "/Bob Dylan/Highway 61 Revisited" "<artist>-<album>"
-./create_remap "/<artist>/<album>/<track>. <title>.<type>" "/Bob Dylan/1965 - Highway 61 Revisited/01. Like a Rolling Stone.mp3" "<track>: <artist>-<album>-<title>.<type>"
-
--FILE INPUT:
-./create_remap -f "/<artist>/<album>/<track>. <title>.<type>" "remap_test_cases.txt" "<track>: <artist>-<album>-<title>.<type>"
-./create_remap -f "<track>: <artist>-<album>-<title>.<type>" "/<artist>/<album>/<track>. <title>.<type>" "remap_test_case_files_to_dirs.txt" 
-
--TEST CREATING COMMANDS
-mkdir -p "$(./create_remap "<track>. <artist> - <album> - <title>.<type>"  "10. The Rolling Stones - Exile On Main Street - Brown Sugar.mp3"  "./<artist>/<album>/")" 
-touch "$(./create_remap "<track>. <artist> - <album> - <title>.<type>"  "10. The Rolling Stones - Exile On Main Street - Brown Sugar.mp3"  "./<artist>/<album>/<track>. <title>.<type>")"
-
--CREATE COPY COMMAND
-./create_remap -f "/<artist>/<album>/<track>. <title>.<type>" \
-"remap_test_cases.txt" \
-"mkdir -p \"/home/brian/tmp/<artist>/<album>/\" & cp \"/media/brian/TOSHIBA EXT/music/albums/<artist>/<album>/<track>. <title>.<type>\" \"/home/brian/tmp/<artist>/<album>/<track>: <artist>-<album>-<title>.<type>\""\
-> copy.sh
-
---RUN IT?
-#chmod +x copy.sh
-#./copy.sh
+./roep -f "<track>: <artist> - <date> - <album> - <title>.<type>" "/<artist>/<date> - <album>/<track>. <title>.<type>" "remap_test_case_file_names.txt"
+./roep "<track>. <artist>-<album>-<title>.<type>" "/<artist>/<album>/<track>. <title>.<type>" "$(./roep "/<artist>/<album>/<track>. <title>.<type>"  "<track>. <artist>-<album>-<title>.<type>" "/Pink Floyd/The Wall/10. Run Like Hell.mp3")"
 
 //DEMO OUTPUT
 bash>$ cat remap_test_case_file_names.txt
@@ -228,7 +203,7 @@ bash>$ cat remap_test_case_file_names.txt
 07: Bob Dylan - 1965 - Highway 61 Revisited - Highway 61 Revisited.mp3
 08: Bob Dylan - 1965 - Highway 61 Revisited - Just Like Tom Thumb's Blues.mp3
 09: Bob Dylan - 1965 - Highway 61 Revisited - Desolation Row.mp3
-bash>$ ./create_remap -f "<track>: <artist> - <date> - <album> - <title>.<type>" "/<artist>/<date> - <album>/<track>. <title>.<type>" "remap_test_case_file_names.txt"
+bash>$ ./roep -f "<track>: <artist> - <date> - <album> - <title>.<type>" "/<artist>/<date> - <album>/<track>. <title>.<type>" "remap_test_case_file_names.txt"
 /Bob Dylan/1965 - Highway 61 Revisited/01. Like a Rolling Stone.mp3
 /Bob Dylan/1965 - Highway 61 Revisited/02. Tombstone Blues.mp3
 /Bob Dylan/1965 - Highway 61 Revisited/03. It Takes a Lot to Laugh, It Takes a Train to Cry.mp3
