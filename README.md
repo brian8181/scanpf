@@ -3,7 +3,7 @@ Re Organize Expression
 
 ## Usage
 
-roep "<a>.<b> <c>" "<c> <b>.<a>" "A.B C" 
+roep "\<a\>.\<b\> \<c\>" "\<c\> \<b\>.\<a\>" "A.B C" 
   
   output:
   
