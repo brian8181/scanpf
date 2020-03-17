@@ -32,5 +32,5 @@
 *.app
 
 # Tree
-src/roep
+src/scanpf
 autom4te.cache/*

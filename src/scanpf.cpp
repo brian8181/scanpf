@@ -30,7 +30,7 @@ void print_help();
 
 /*
 
-roep [opts] INPUT_PATTERN OUTPUT_PATTERN [INPUT ... ]
+ scanpf [opts] INPUT_PATTERN OUTPUT_PATTERN [INPUT ... ]
 
 */
 
@@ -179,7 +179,7 @@ void replace_all(string& s, const string& sub_str, const string& replace_str)
 void print_help()
 {
     cout << "\n" 
-        << FMT_BOLD << "roep" << FMT_RESET << " "
+        << FMT_BOLD << "scanpf" << FMT_RESET << " "
         << "[OPTIONS] " 
         << FMT_UNDERLINE << "INPUT_PATTERN"  << FMT_RESET << " " 
         << FMT_UNDERLINE << "OUTPUT_PATTERN" << FMT_RESET << " "
@@ -190,8 +190,8 @@ void print_help()
 
 *USAGE*
 
-./roep -f "<track>: <artist> - <date> - <album> - <title>.<type>" "/<artist>/<date> - <album>/<track>. <title>.<type>" "remap_test_case_file_names.txt"
-./roep "<track>. <artist>-<album>-<title>.<type>" "/<artist>/<album>/<track>. <title>.<type>" "$(./roep "/<artist>/<album>/<track>. <title>.<type>"  "<track>. <artist>-<album>-<title>.<type>" "/Pink Floyd/The Wall/10. Run Like Hell.mp3")"
+./scanpf -f "<track>: <artist> - <date> - <album> - <title>.<type>" "/<artist>/<date> - <album>/<track>. <title>.<type>" "remap_test_case_file_names.txt"
+./scanpf "<track>. <artist>-<album>-<title>.<type>" "/<artist>/<album>/<track>. <title>.<type>" "$(./ "/<artist>/<album>/<track>. <title>.<type>"  "<track>. <artist>-<album>-<title>.<type>" "/Pink Floyd/The Wall/10. Run Like Hell.mp3")"
 
 *DEMO OUTPUT*
 
@@ -205,7 +205,7 @@ bash>$ cat ../test/remap_test_case_file_names.txt
 07: Bob Dylan - 1965 - Highway 61 Revisited - Highway 61 Revisited.mp3
 08: Bob Dylan - 1965 - Highway 61 Revisited - Just Like Tom Thumb's Blues.mp3
 09: Bob Dylan - 1965 - Highway 61 Revisited - Desolation Row.mp3
-bash>$ ./roep -f "<track>: <artist> - <date> - <album> - <title>.<type>" "/<artist>/<date> - <album>/<track>. <title>.<type>" "../test/remap_test_case_file_names.txt"
+bash>$ ./scanpf -f "<track>: <artist> - <date> - <album> - <title>.<type>" "/<artist>/<date> - <album>/<track>. <title>.<type>" "../test/remap_test_case_file_names.txt"
 /Bob Dylan/1965 - Highway 61 Revisited/01. Like a Rolling Stone.mp3
 /Bob Dylan/1965 - Highway 61 Revisited/02. Tombstone Blues.mp3
 /Bob Dylan/1965 - Highway 61 Revisited/03. It Takes a Lot to Laugh, It Takes a Train to Cry.mp3

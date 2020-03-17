@@ -1,3 +1,3 @@
-bin_PROGRAMS = roep
-roep_SOURCES = ./src/roep.cpp
-roep_LDADD = @LEXLIB@
+bin_PROGRAMS = scanpf
+_SOURCES = ./src/scanpf.cpp
+_LDADD = @LEXLIB@
