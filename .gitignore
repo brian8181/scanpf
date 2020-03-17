@@ -34,3 +34,5 @@
 # Tree
 src/scanpf
 autom4te.cache/*
+test/DEBUG_OUTPUT*.txt
+

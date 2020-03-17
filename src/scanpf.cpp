@@ -19,7 +19,9 @@ const string FMT_RESET     = "\e[0m";
 
 // character sets allowed pattern for tag names
 const string TAG_MATCH_EXP_STR = R"(\<([A-z]+[A-z0-9]*)\>)";
-const string SPECIAL_CHARS_STR = R"([A-z0-9 \^\$\.\*\+\:\'\[\]\{\}\|;,@#_-])";
+//const string SPECIAL_CHARS_STR = R"([A-z0-9 \^\$\.\*\+\:\'\[\]\{\}\(\)\|&%;,@#_-])";
+//const string DELIMITING_CHARS = R"(.*?)";
+const string DELIMITING_CHARS = R"(.*)";
 const regex TAG_EXP(TAG_MATCH_EXP_STR);
 
 // declare functions prototypes
@@ -110,7 +112,7 @@ map<string, string>& create_map(const string& pattern, const string& s, map<stri
     // create regx from pattern
     replace_all(pattern_cpy, ".", "\\.");
     const string REPLACE_EXP_STR 
-        = "^" + regex_replace(pattern_cpy, TAG_EXP, "(" + SPECIAL_CHARS_STR + "*)" ) + "$";
+        = "^" + regex_replace(pattern_cpy, TAG_EXP, "(" + DELIMITING_CHARS + ")" ) + "$";
     const regex REPLACE_EXP (REPLACE_EXP_STR);
     
     // create smatch
