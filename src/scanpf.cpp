@@ -18,10 +18,11 @@ const string FMT_RESET     = "\e[0m";
 // ~!@#\\$%\\^&\\*\\(\\)_\\+`-=\\[\\]\\\\\{\\}\\|;':"\\,\\./<>\\?" ESCAPED
 
 // character sets allowed pattern for tag names
-const string TAG_MATCH_EXP_STR = R"(\<([A-z]+[A-z0-9]*)\>)";
-//const string SPECIAL_CHARS_STR = R"([A-z0-9 \^\$\.\*\+\:\'\[\]\{\}\(\)\|&%;,@#_-])";
-//const string DELIMITING_CHARS = R"(.*?)";
-const string DELIMITING_CHARS = R"(.*)";
+const string TAG_MATCH_EXP_STR = R"(\<([A-z]+[A-z0-9]*)\>)"; // conservative match
+//const string TAG_MATCH_EXP_STR = R"(<[^<>]+>)";            // liberal match
+//const string TAG_VALUE_EXP_STR = R"([A-z0-9 \^\$\.\*\+\:\'\[\]\{\}\(\)\|&%;,@#_-])";
+//const string TAG_VALUE_EXP_STR = R"(.*?)";
+const string TAG_VALUE_EXP_STR = R"(.*)"; // value between tags
 const regex TAG_EXP(TAG_MATCH_EXP_STR);
 
 // declare functions prototypes
@@ -41,7 +42,8 @@ int main(int argc, char* argv[])
     int opt;
     bool file_flag = false;
     bool verbose_flag = false;
-    bool help_flag = false;
+    //bool debug_flag = false;
+    //bool help_flag = false;
     while ((opt = getopt(argc, argv, "hvfn:")) != -1) 
     {
         switch (opt) 
@@ -97,7 +99,6 @@ int main(int argc, char* argv[])
             tag_map.clear();
             create_map(input_pattern_str, input_str, tag_map);
             // open file iter
-            formated_out;
             create_formated_output(output_pattern_str, tag_map, formated_out);
             cout << formated_out << endl;
         }
@@ -112,7 +113,7 @@ map<string, string>& create_map(const string& pattern, const string& s, map<stri
     // create regx from pattern
     replace_all(pattern_cpy, ".", "\\.");
     const string REPLACE_EXP_STR 
-        = "^" + regex_replace(pattern_cpy, TAG_EXP, "(" + DELIMITING_CHARS + ")" ) + "$";
+        = "^" + regex_replace(pattern_cpy, TAG_EXP, "(" + TAG_VALUE_EXP_STR + ")" ) + "$";
     const regex REPLACE_EXP (REPLACE_EXP_STR);
     
     // create smatch

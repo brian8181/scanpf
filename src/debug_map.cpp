@@ -30,13 +30,13 @@ int main(int argc, char* argv[])
 
     // character sets allowed pattern for tag names
     const string TAG_MATCH_EXP_STR = R"(\<([A-z]+[A-z0-9]*)\>)";
-    const string DELIMITING_CHARS = R"([A-z0-9 \^\$\.\*\+\:\'\[\]\{\}\|;,@#_-])";
+    const string TAG_VALUE_EXP_STR = R"([A-z0-9 \^\$\.\*\+\:\'\[\]\{\}\|;,@#_-])";
 
     // create regx from pattern
     replace_all(pattern_str, ".", "\\.");
     const regex TAG_EXP(TAG_MATCH_EXP_STR);
     const string REPLACE_EXP_STR 
-        = "^" + regex_replace(pattern_str, TAG_EXP, "(" + DELIMITING_CHARS + "*)" ) + "$";
+        = "^" + regex_replace(pattern_str, TAG_EXP, "(" + TAG_VALUE_EXP_STR + "*)" ) + "$";
     const regex REPLACE_EXP (REPLACE_EXP_STR);
     
     // create smatch

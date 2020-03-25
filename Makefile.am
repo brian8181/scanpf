@@ -1,3 +1,4 @@
 bin_PROGRAMS = scanpf
-_SOURCES = ./src/scanpf.cpp
-_LDADD = @LEXLIB@
+scanpf_SOURCES = ./src/scanpf.cpp 
+scanpf_LDADD = @SCANPF_OBJ@
+scanpf_DEPENDENCIES = @SCANPF_OBJ@

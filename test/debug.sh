@@ -63,6 +63,21 @@ echo
 "flac_list.txt" > DEBUG_OUTPUT_MATCH.txt
 
 
+echo
+echo "***********************************************************"
+echo "***************** REANAME EXT .flac->.mp3 *****************"
+echo "***********************************************************"
+echo 
+
+../src/scanpf -f "/media/brian/TOSHIBA EXT/music/albums/<artist>/<album>/<filename>.<type>" \
+"/media/brian/TOSHIBA EXT/music/albums/<artist>/<album>/<filename>.flac" \
+"flac_list.txt" > DEBUG_RENAME.txt
+
+wc -l flac_list.txt
+wc -l DEBUG_OUTPUT.txt
+wc -l DEBUG_OUTPUT_MATCH.txt
+wc -l DEBUG_RENAME.txt  
+
 #/media/brian/TOSHIBA EXT/music/albums/Ian Dury/2005 - Reasons to Be Cheerful the Best of Ian Dury/2.flac
 #/media/brian/TOSHIBA EXT/music/albums/Aphex Twin/2014 - Syro/01.flac
 
@@ -75,11 +90,3 @@ echo
 # ../src/scanpf "/media/brian/TOSHIBA EXT/music/albums/Aphex Twin/2014 - Syro/<N>.<type>" \
 # "/media/brian/TOSHIBA EXT/music/albums/Aphex Twin/2014 - Syro/<N>.<type>" \
 # "/media/brian/TOSHIBA EXT/music/albums/Aphex Twin/2014 - Syro/01. minipops 67 [120.2][source field mix].flac"
-
-
-
-
-
-
-
-
