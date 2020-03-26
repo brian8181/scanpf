@@ -8,7 +8,9 @@
             "label": "g++ build active file",
             "command": "/usr/bin/g++",
             "args": [
-                "-std=c++11", "-Wall", "-g",
+                "-std=c++11",
+                "-Wall",
+                "-g",
                 "${file}",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
