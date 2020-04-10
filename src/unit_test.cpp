@@ -6,6 +6,8 @@ unsigned int Factorial( unsigned int number ) {
     return number <= 1 ? number : Factorial(number-1)*number;
 }
 
+void replace_all(std::string& s, const std::string& sub_str, const std::string& replace_str);
+
 TEST_CASE( "Factorials are computed", "[factorial]" ) {
     REQUIRE( Factorial(1) == 1 );
     REQUIRE( Factorial(2) == 2 );
@@ -13,9 +15,15 @@ TEST_CASE( "Factorials are computed", "[factorial]" ) {
     REQUIRE( Factorial(10) == 3628800 );
 }
 
+// TEST_CASE("Test1", "scanpf")void replace_all(string& s, const string& sub_str, const string& rvoid replace_all(string& s, const string& sub_str, const string& replace_str)eplace_str)
+// {
+    
+// }
+
+
 // TEST_CASE("Replace All")
 // {
-//     std::string s = "Hello BEFORE this [BEFORE] <BEFORE> BEFORE";
+//     const std::string s = "Hello BEFORE this [BEFORE] <BEFORE> BEFORE";
 //     replace_all(s, "BEFORE", "AFTER");
 //     REQUIRE( s == "Hello AFTER this [AFTER] <AFTER> AFTER" );
 //     REQUIRE_FALSE( s != "Hello AFTER this [AFTER] <AFTER> AFTER" );

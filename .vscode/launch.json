@@ -5,11 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "g++ - Build and debug active file",
+            "name": "g++ - scanpf test1",
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
-            "args": ["<a>", "a", "a"],
+            "args": ["<a>. <b>", "<b>. <a>", "A.B"],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
             "environment": [],

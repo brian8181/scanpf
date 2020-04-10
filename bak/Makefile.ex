@@ -1,5 +1,5 @@
 # Output setting
-SRC=../src
+SRC=./src
 BUILD=.
 
 # Compiler settings - Can be customized.
