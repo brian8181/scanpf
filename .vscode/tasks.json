@@ -25,6 +25,15 @@
                 "kind": "build",
                 "isDefault": true
             }
-        }
+        },
+        // {
+        //     "label": "MAKE DEBUGGDB",
+        //     "type": "shell",
+        //     "command": "make debuggdb",
+        //     "group": {
+        //         "kind": "build",
+        //         "isDefault": true
+        //     }
+    	// }
     ]
 }
