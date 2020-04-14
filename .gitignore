@@ -40,3 +40,7 @@ aclocal.m4
 configure
 
 build/*
+config.h.in
+depcomp
+install-sh
+Makefile.in
