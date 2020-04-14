@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
     bool verbose_flag = false;
     //bool debug_flag = false;
     //bool help_flag = false;
-    while ((opt = getopt(argc, argv, "hvfn:")) != -1) 
+    while ((opt = getopt(argc, argv, "hvf")) != -1) 
     {
         switch (opt) 
         {
