@@ -42,8 +42,7 @@ int main(int argc, char* argv[])
     int opt;
     bool file_flag = false;
     bool verbose_flag = false;
-    //bool debug_flag = false;
-    //bool help_flag = false;
+   
     while ((opt = getopt(argc, argv, "hvf")) != -1) 
     {
         switch (opt) 
@@ -136,6 +135,7 @@ map<string, string>& create_map(const string& pattern, const string& s, map<stri
 
 string& create_formated_output(const string& s, map<string, string>& map, string& formated_output)
 {
+
     auto begin = sregex_iterator(s.begin(), s.end(), TAG_EXP);
     auto end = sregex_iterator();
     formated_output = s; // copy s
