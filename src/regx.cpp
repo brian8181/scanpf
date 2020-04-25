@@ -6,23 +6,23 @@
 using namespace std;
 
 // shell color constants
-const string FMT_FG_GREEN  = "\e[32m"; 
+const string FMT_FG_GREEN = "\e[32m";
 const string FMT_UNDERLINE = "\e[4m";
-const string FMT_BOLD      = "\e[1m";
-const string FMT_RESET     = "\e[0m";
+const string FMT_BOLD = "\e[1m";
+const string FMT_RESET = "\e[0m";
 const string CURRENT_FG_COLOR = FMT_FG_GREEN + FMT_UNDERLINE;
 
 void print_help();
 
-int main(int argc, char* argv[]) 
+int main(int argc, char *argv[])
 {
     int opt;
     //bool file_flag = false;
     bool verbose_flag = false;
     //bool help_flag = false;
-    while ((opt = getopt(argc, argv, "hvn:")) != -1) 
+    while ((opt = getopt(argc, argv, "hvn:")) != -1)
     {
-        switch (opt) 
+        switch (opt)
         {
         case 'h':
             print_help();
@@ -36,34 +36,37 @@ int main(int argc, char* argv[])
         }
     }
 
-    if (optind >= argc) 
+    if (optind >= argc)
     {
         fprintf(stderr, "Expected argument after options, -h for help\n");
         exit(EXIT_FAILURE);
     }
 
-    if(verbose_flag)
+    if (verbose_flag)
     {
         print_help();
     }
 
     string exp(argv[optind]);
-    string src(argv[optind+1]);
+    string src(argv[optind + 1]);
 
-    
-    cout << "pattern: " << "\"" << exp << "\"" << " -> " 
-         << "input: " << "\"" << src << "\"" << "\n\n";
+    cout << "pattern: "
+         << "\"" << exp << "\""
+         << " -> "
+         << "input: "
+         << "\"" << src << "\""
+         << "\n\n";
 
     int idx = 0;
     string bash_str = src;
     regex src_epx(exp);
     auto begin = sregex_iterator(src.begin(), src.end(), src_epx);
     auto end = sregex_iterator();
-    
+
     for (sregex_iterator i = begin; i != end; ++i)
     {
         smatch match = *i;
-                
+
         int pos = match.position() + (idx * (CURRENT_FG_COLOR.length() + FMT_RESET.length()));
         int len = match.length();
 
@@ -74,8 +77,8 @@ int main(int argc, char* argv[])
         pos = pos + CURRENT_FG_COLOR.length() + len;
         bash_str.insert(pos, FMT_RESET);
 
-        cout << idx << ": " << src.substr(match.position(), match.length()) << endl; 
-       
+        cout << idx << ": " << src.substr(match.position(), match.length()) << endl;
+
         ++idx;
     }
 
@@ -85,9 +88,10 @@ int main(int argc, char* argv[])
 
 void print_help()
 {
-    cout << "\n" << FMT_BOLD << "regx" << FMT_RESET << " " 
-         << FMT_UNDERLINE << "PATTERN" << FMT_RESET << " " 
-         << FMT_UNDERLINE << "INPUT"   << FMT_RESET << "\n\n";
+    cout << "\n"
+         << FMT_BOLD << "regx" << FMT_RESET << " "
+         << FMT_UNDERLINE << "PATTERN" << FMT_RESET << " "
+         << FMT_UNDERLINE << "INPUT" << FMT_RESET << "\n\n";
 }
 
 /*

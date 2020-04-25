@@ -44,3 +44,5 @@ config.h.in
 depcomp
 install-sh
 Makefile.in
+build/scanpf
+bak/octave-workspace

@@ -8,10 +8,10 @@
 using namespace std;
 
 // shell color constants
-const string FMT_FG_GREEN  = "\e[32m"; 
+const string FMT_FG_GREEN = "\e[32m";
 const string FMT_UNDERLINE = "\e[4m";
-const string FMT_BOLD      = "\e[1m";
-const string FMT_RESET     = "\e[0m";
+const string FMT_BOLD = "\e[1m";
+const string FMT_RESET = "\e[0m";
 
 // regx special chars = ^ $ \ . * + ? ( ) [ ] { } | :
 // ~!@#$%^&*()_+`-=[]\{}|;':",./<>?"
@@ -26,9 +26,9 @@ const string TAG_VALUE_EXP_STR = R"(.*)"; // value between tags
 const regex TAG_EXP(TAG_MATCH_EXP_STR);
 
 // declare functions prototypes
-void replace_all(string& s, const string& sub_str, const string& replace_str);
-map<string, string>& create_map(const string& pattern, const string& s, map<string, string>& map);
-string& create_formated_output(const string& s, map<string, string>& map, string& formated_output);
+void replace_all(string &s, const string &sub_str, const string &replace_str);
+map<string, string> &create_map(const string &pattern, const string &s, map<string, string> &map);
+string &create_formated_output(const string &s, map<string, string> &map, string &formated_output);
 void print_help();
 
 /*
@@ -37,15 +37,15 @@ void print_help();
 
 */
 
-int main(int argc, char* argv[]) 
+int main(int argc, char *argv[])
 {
     int opt;
     bool file_flag = false;
     bool verbose_flag = false;
-   
-    while ((opt = getopt(argc, argv, "hvf")) != -1) 
+
+    while ((opt = getopt(argc, argv, "hvf")) != -1)
     {
-        switch (opt) 
+        switch (opt)
         {
         case 'h':
             print_help();
@@ -61,23 +61,32 @@ int main(int argc, char* argv[])
             return EXIT_FAILURE;
         }
     }
-
-    if (optind >= argc) 
+    
+    if(argc > 4)
     {
-        fprintf(stderr, "Expected argument after options, -h for help\n");
+        //too many args
+        fprintf(stderr, "Unexpected argument after options, -h for help\n");
+        exit(EXIT_FAILURE);
+
+    }
+    else if (argc < 4)
+    {
+        //not enough args
+        fprintf(stderr, "Expected arguments after options, -h for help\n");
         exit(EXIT_FAILURE);
     }
 
-    if(verbose_flag)
+      
+    if (verbose_flag)
     {
         print_help();
     }
-    
-    string input_pattern_str(argv[optind]);
-    string output_pattern_str(argv[optind+1]);
-    string input_str(argv[optind+2]);
 
-    if(!file_flag)
+    string input_pattern_str(argv[optind]);
+    string output_pattern_str(argv[optind + 1]);
+    string input_str(argv[optind + 2]);
+
+    if (!file_flag)
     {
         map<string, string> tag_map;
         create_map(input_pattern_str, input_str, tag_map);
@@ -94,7 +103,7 @@ int main(int argc, char* argv[])
         std::ifstream file(input_str);
 
         while (std::getline(file, input_str))
-        { 
+        {
             tag_map.clear();
             create_map(input_pattern_str, input_str, tag_map);
             // open file iter
@@ -105,25 +114,24 @@ int main(int argc, char* argv[])
     exit(EXIT_SUCCESS);
 }
 
-map<string, string>& create_map(const string& pattern, const string& s, map<string, string>& map)
+map<string, string> &create_map(const string &pattern, const string &s, map<string, string> &map)
 {
     // create copy of pattern
     string pattern_cpy = pattern;
     // create regx from pattern
     replace_all(pattern_cpy, ".", "\\.");
-    const string REPLACE_EXP_STR 
-        = "^" + regex_replace(pattern_cpy, TAG_EXP, "(" + TAG_VALUE_EXP_STR + ")" ) + "$";
-    const regex REPLACE_EXP (REPLACE_EXP_STR);
-    
+    const string REPLACE_EXP_STR = "^" + regex_replace(pattern_cpy, TAG_EXP, "(" + TAG_VALUE_EXP_STR + ")") + "$";
+    const regex REPLACE_EXP(REPLACE_EXP_STR);
+
     // create smatch
-    smatch sm;    
-    regex_match (s, sm, REPLACE_EXP);
-    
+    smatch sm;
+    regex_match(s, sm, REPLACE_EXP);
+
     // iterate through tag matches and create map
     int idx = 1;
     auto begin = sregex_iterator(pattern_cpy.begin(), pattern_cpy.end(), TAG_EXP);
     auto end = sregex_iterator();
-    
+
     for (sregex_iterator i = begin; i != end; ++i)
     {
         smatch match = *i;
@@ -133,12 +141,12 @@ map<string, string>& create_map(const string& pattern, const string& s, map<stri
     return map;
 }
 
-string& create_formated_output(const string& s, map<string, string>& map, string& formated_output)
+string &create_formated_output(const string &s, map<string, string> &map, string &formated_output)
 {
 
     auto begin = sregex_iterator(s.begin(), s.end(), TAG_EXP);
     auto end = sregex_iterator();
-    formated_output = s; // copy s
+    formated_output = s; // copy s>
     int format_str_pos = 0;
     int format_str_end = 0;
     int output_str_pos = 0;
@@ -148,8 +156,8 @@ string& create_formated_output(const string& s, map<string, string>& map, string
     {
         smatch match = *i;
         string tag_value = map[match.str(1)];
-        
-        // get current match position 
+
+        // get current match position
         format_str_pos = match.position();
         // set realtive to last end
         relative_pos = format_str_pos - format_str_end;
@@ -159,19 +167,19 @@ string& create_formated_output(const string& s, map<string, string>& map, string
         // replace <tag> with tag value
         formated_output.replace(output_str_pos, match.length(), tag_value);
         // set pos to end of replace
-        output_str_pos += tag_value.length(); 
+        output_str_pos += tag_value.length();
     }
 
     return formated_output;
 }
 
-void replace_all(string& s, const string& sub_str, const string& replace_str)
+void replace_all(string &s, const string &sub_str, const string &replace_str)
 {
     size_t pos = 0;
     size_t len = s.length();
-   
+
     pos = s.find(sub_str, pos);
-    while(pos < len)
+    while (pos < len)
     {
         s.replace(pos, sub_str.length(), replace_str);
         pos += replace_str.length();
@@ -181,12 +189,12 @@ void replace_all(string& s, const string& sub_str, const string& replace_str)
 
 void print_help()
 {
-    cout << "\n" 
-        << FMT_BOLD << "scanpf" << FMT_RESET << " "
-        << "[OPTIONS] " 
-        << FMT_UNDERLINE << "INPUT_PATTERN"  << FMT_RESET << " " 
-        << FMT_UNDERLINE << "OUTPUT_PATTERN" << FMT_RESET << " "
-        << FMT_UNDERLINE << "[INPUT ...]"    << FMT_RESET << "\n\n";
+    cout << "\n"
+         << FMT_BOLD << "scanpf" << FMT_RESET << " "
+         << "[OPTIONS] "
+         << FMT_UNDERLINE << "INPUT_PATTERN" << FMT_RESET << " "
+         << FMT_UNDERLINE << "OUTPUT_PATTERN" << FMT_RESET << " "
+         << FMT_UNDERLINE << "[INPUT ...]" << FMT_RESET << "\n\n";
 }
 
 /*
