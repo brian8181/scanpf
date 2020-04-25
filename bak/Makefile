@@ -15,6 +15,7 @@ debuggdb: scanpf regx
 
 
 scanpf: scanpf.o
+	#g++ $(CXXFLAGS) $(BUILD)/$< -o $(BUILD)/$@
 	g++ $(CXXFLAGS) $(BUILD)/scanpf.o -o $(BUILD)/scanpf
 
 scanpf.o: 
@@ -38,7 +39,14 @@ unit_test.o: $(SRC)/unit_test.cpp 000-CatchMain.o utility.o
 utility.o: $(SRC)/utility.cpp
 	g++ $(CXXFLAGS) -c $(SRC)/utility.cpp -o $(BUILD)/utility.o
 
+.PHONY: install
+install: scanpf
+	cp $(BUILD)/scanpf /usr/local/bin/scanpf
 
+.PHONY: uninstall
+uninstall: 
+	rm /usr/local/bin/scanpf
+	
 # clean all build
 .PHONY: test
 test: regx unit_test
