@@ -1,0 +1,1 @@
+man_MANS = scanpf.1
