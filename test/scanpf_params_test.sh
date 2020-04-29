@@ -1,16 +1,26 @@
 BUILD="../build"
 
 
-$BUILD/scanpf -h
-
 $BUILD/scanpf "<A>.<B>.<C>" "<C>.<B>.<A>" "A.B.C" 
+
+echo
+echo "Missing Paramaters ..."
+echo
 
 $BUILD/scanpf "<A>.<B>.<C>" "<C>.<B>.<A>" 
 $BUILD/scanpf "<A>.<B>.<C>" 
 
+echo
+echo "Verbose Option ..."
+echo
 
 $BUILD/scanpf -v "<A>.<B>.<C>" "<C>.<B>.<A>" "A.B.C" 
 
+echo
+echo "Help Option ..."
+echo 
+
+$BUILD/scanpf -h
 $BUILD/scanpf -hv "<A>.<B>.<C>" "<C>.<B>.<A>" "A.B.C" 
 $BUILD/scanpf -vh "<A>.<B>.<C>" "<C>.<B>.<A>" "A.B.C" 
 $BUILD/scanpf -hv "<A>.<B>.<C>" "<C>.<B>.<A>" "A.B.C" 

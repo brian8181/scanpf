@@ -37,12 +37,15 @@ void print_help();
 
 */
 
+const unsigned int DEFAULT_ARGC = 4;
+
 int main(int argc, char *argv[])
 {
+    unsigned int expected_argc = DEFAULT_ARGC;
     int opt;
     bool file_flag = false;
     bool verbose_flag = false;
-
+    
     while ((opt = getopt(argc, argv, "hvf")) != -1)
     {
         switch (opt)
@@ -51,9 +54,11 @@ int main(int argc, char *argv[])
             print_help();
             return 0;
         case 'v':
+            ++expected_argc;
             verbose_flag = true;
             break;
         case 'f':
+            ++expected_argc;
             file_flag = true;
             break;
         default: /* '?' */
@@ -62,14 +67,14 @@ int main(int argc, char *argv[])
         }
     }
     
-    if(argc > 4)
+    if(argc > expected_argc)
     {
         //too many args
         fprintf(stderr, "Unexpected argument after options, -h for help\n");
         exit(EXIT_FAILURE);
 
     }
-    else if (argc < 4)
+    else if (argc < expected_argc)
     {
         //not enough args
         fprintf(stderr, "Expected arguments after options, -h for help\n");
