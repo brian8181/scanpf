@@ -1,5 +1,4 @@
-AUTOMAKE_OPTIONS = subdir-objects
-bin_PROGRAMS = scanpf
-scanpf_SOURCES = ./src/scanpf.cpp 
-scanpf_LDADD = @SCANPF_OBJ@
-scanpf_DEPENDENCIES = @SCANPF_OBJ@
+AUTOMAKE_OPTIONS = foreign
+ACLOCAL_AMFLAGS = -I m4
+AM_CXXFLAGS = -Wall -Wextra
+SUBDIRS = src doc examples man scripts
