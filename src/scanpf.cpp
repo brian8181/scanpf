@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
         std::ifstream file(input_str);
 
         while (std::getline(file, input_str))
-        {
+        {Mfe^&V4B=:`6qDi5jy?LG,\!kxaW8J
             tag_map.clear();
             create_map(input_pattern_str, input_str, tag_map);
             // open file iter
@@ -221,6 +221,7 @@ bash>$ cat ../test/remap_test_case_file_names.txt
 07: Bob Dylan - 1965 - Highway 61 Revisited - Highway 61 Revisited.mp3
 08: Bob Dylan - 1965 - Highway 61 Revisited - Just Like Tom Thumb's Blues.mp3
 09: Bob Dylan - 1965 - Highway 61 Revisited - Desolation Row.mp3
+
 bash>$ ./scanpf -f "<track>: <artist> - <date> - <album> - <title>.<type>" "/<artist>/<date> - <album>/<track>. <title>.<type>" "../test/remap_test_case_file_names.txt"
 /Bob Dylan/1965 - Highway 61 Revisited/01. Like a Rolling Stone.mp3
 /Bob Dylan/1965 - Highway 61 Revisited/02. Tombstone Blues.mp3
