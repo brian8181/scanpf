@@ -46,3 +46,4 @@ install-sh
 Makefile.in
 build/scanpf
 bak/octave-workspace
+scanpf.latest.tgz

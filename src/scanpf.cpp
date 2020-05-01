@@ -41,7 +41,7 @@ const unsigned int DEFAULT_ARGC = 4;
 
 int main(int argc, char *argv[])
 {
-    unsigned int expected_argc = DEFAULT_ARGC;
+    int expected_argc = DEFAULT_ARGC;
     int opt;
     bool file_flag = false;
     bool verbose_flag = false;

@@ -16,7 +16,7 @@ debuggdb: scanpf regx
 
 scanpf: scanpf.o
 	#g++ $(CXXFLAGS) $(BUILD)/$< -o $(BUILD)/$@
-	g++ $(CXXFLAGS) $(BUILD)/scanpf.o -o $(BUILD)/scanpf
+	g++ $(CXXFLAGS) $(BUILD)/scanpf.o -o $(BUILD)/scanpf 
 
 scanpf.o: 
 	g++ $(CXXFLAGS) -c $(SRC)/scanpf.cpp -o $(BUILD)/scanpf.o
@@ -39,6 +39,12 @@ unit_test.o: $(SRC)/unit_test.cpp 000-CatchMain.o utility.o
 utility.o: $(SRC)/utility.cpp
 	g++ $(CXXFLAGS) -c $(SRC)/utility.cpp -o $(BUILD)/utility.o
 
+# build:
+# 	if [ -d "$(BUILD)/"]; then
+# 		#mkdir $(BUILD)
+# 		echo "TESTING"
+# 	fi
+
 .PHONY: install
 install: scanpf
 	cp $(BUILD)/scanpf /usr/local/bin/scanpf
@@ -60,4 +66,7 @@ cleanobj:
 # clean all build
 .PHONY: clean
 clean:
-	rm -r $(BUILD)/*
+	rm -r $(BUILD) 
+
+archive: all
+	git archive master | gzip > $(BUILD)/scanpf.latest.tgz
