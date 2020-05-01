@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
         std::ifstream file(input_str);
 
         while (std::getline(file, input_str))
-        {Mfe^&V4B=:`6qDi5jy?LG,\!kxaW8J
+        {
             tag_map.clear();
             create_map(input_pattern_str, input_str, tag_map);
             // open file iter
