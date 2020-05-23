@@ -3,7 +3,10 @@ SRC=../src
 BUILD=../build
 
 # Compiler settings - Can be customized.
+CXX = g++
 CXXFLAGS = -std=c++11 -Wall
+# LDFLAGS
+# CPPFLAGS
 
 all: scanpf unit_test regx
 
