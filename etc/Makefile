@@ -41,16 +41,20 @@ man:
 	gzip /usr/local/share/man/man1/scanpf.1
 	mandb
 
+unman:
+	rm /usr/local/share/man/man1/scanpf.1.gz
+	mandb
+
 .PHONY: build
 build:
 	if test ! -d $(BUILD); then mkdir $(BUILD); fi
 
 .PHONY: install
-install: scanpf
+install: man scanpf
 	cp $(BUILD)/scanpf /usr/local/bin/scanpf
 
 .PHONY: uninstall
-uninstall: 
+uninstall: unman
 	rm /usr/local/bin/scanpf
 	
 # clean all build
