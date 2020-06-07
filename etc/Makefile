@@ -16,38 +16,40 @@ debug: scanpf
 debuggdb: CXXFLAGS += -DDEBUG -ggdb
 debuggdb: scanpf
 
-
 scanpf: scanpf.o
 	#g++ $(CXXFLAGS) $(BUILD)/$< -o $(BUILD)/$@
 	g++ $(CXXFLAGS) $(BUILD)/scanpf.o -o $(BUILD)/scanpf 
 
-scanpf.o: build
+scanpf.o: $(BUILD)
 	g++ $(CXXFLAGS) -c $(SRC)/scanpf.cpp -o $(BUILD)/scanpf.o
 
 unit_test: unit_test.o 000-CatchMain.o utility.o
 	g++ $(CXXFLAGS) $(BUILD)/unit_test.o $(BUILD)/000-CatchMain.o $(BUILD)/utility.o -o $(BUILD)/unit_test
 
-unit_test.o: build $(SRC)/unit_test.cpp 000-CatchMain.o utility.o
+unit_test.o: $(BUILD) $(SRC)/unit_test.cpp 000-CatchMain.o utility.o
 	g++ $(CXXFLAGS) -c $(SRC)/unit_test.cpp -o $(BUILD)/unit_test.o
 
-000-CatchMain.o: build $(SRC)/000-CatchMain.cpp
+000-CatchMain.o: $(BUILD) $(SRC)/000-CatchMain.cpp
 	g++ $(CXXFLAGS) -c $(SRC)/000-CatchMain.cpp -o $(BUILD)/000-CatchMain.o
 
-utility.o: build $(SRC)/utility.cpp
+utility.o: $(BUILD) $(SRC)/utility.cpp
 	g++ $(CXXFLAGS) -c $(SRC)/utility.cpp -o $(BUILD)/utility.o
 
+# install man pages
 man: 
 	cp ../man/scanpf.1 /usr/local/share/man/man1
 	gzip /usr/local/share/man/man1/scanpf.1
 	mandb
-
+	
+# uninstall man pages
 unman:
 	rm /usr/local/share/man/man1/scanpf.1.gz
 	mandb
 
-.PHONY: build
-build:
-	if test ! -d $(BUILD); then mkdir $(BUILD); fi
+$(BUILD):
+	if [ ! -d "./$(BUILD)" ];then     \
+			mkdir $(BUILD);           \
+	fi
 
 .PHONY: install
 install: man scanpf
@@ -70,7 +72,7 @@ cleanobj:
 # clean all build
 .PHONY: clean
 clean:
-	rm -r $(BUILD) 
+	rm -rf $(BUILD) 
 
 archive: all
 	git archive master | gzip > $(BUILD)/scanpf.latest.tgz
