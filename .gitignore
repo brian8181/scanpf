@@ -47,3 +47,9 @@ Makefile.in
 build/scanpf
 bak/octave-workspace
 scanpf.latest.tgz
+etc/debug_map.cpp
+compile
+stamp-h1
+config.status
+config.log
+
