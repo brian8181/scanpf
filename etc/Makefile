@@ -8,38 +8,32 @@ CXXFLAGS = -std=c++11 -Wall
 # LDFLAGS
 # CPPFLAGS
 
-all: scanpf unit_test regx
+all: scanpf unit_test
 
 debug: CXXFLAGS += -DDEBUG -g
-debug: scanpf regx
+debug: scanpf
 
 debuggdb: CXXFLAGS += -DDEBUG -ggdb
-debuggdb: scanpf regx
+debuggdb: scanpf
 
 
 scanpf: scanpf.o
 	#g++ $(CXXFLAGS) $(BUILD)/$< -o $(BUILD)/$@
 	g++ $(CXXFLAGS) $(BUILD)/scanpf.o -o $(BUILD)/scanpf 
 
-scanpf.o: 
+scanpf.o: build
 	g++ $(CXXFLAGS) -c $(SRC)/scanpf.cpp -o $(BUILD)/scanpf.o
-
-# regx: regx.o
-# 	g++ $(CXXFLAGS) $(BUILD)/regx.o -o $(BUILD)/regx
-
-# regx.o: 
-# 	g++ $(CXXFLAGS) -c $(SRC)/regx.cpp -o $(BUILD)/regx.o
 
 unit_test: unit_test.o 000-CatchMain.o utility.o
 	g++ $(CXXFLAGS) $(BUILD)/unit_test.o $(BUILD)/000-CatchMain.o $(BUILD)/utility.o -o $(BUILD)/unit_test
 
-unit_test.o: $(SRC)/unit_test.cpp 000-CatchMain.o utility.o
+unit_test.o: build $(SRC)/unit_test.cpp 000-CatchMain.o utility.o
 	g++ $(CXXFLAGS) -c $(SRC)/unit_test.cpp -o $(BUILD)/unit_test.o
 
-000-CatchMain.o: $(SRC)/000-CatchMain.cpp
+000-CatchMain.o: build $(SRC)/000-CatchMain.cpp
 	g++ $(CXXFLAGS) -c $(SRC)/000-CatchMain.cpp -o $(BUILD)/000-CatchMain.o
 
-utility.o: $(SRC)/utility.cpp
+utility.o: build $(SRC)/utility.cpp
 	g++ $(CXXFLAGS) -c $(SRC)/utility.cpp -o $(BUILD)/utility.o
 
 man: 
@@ -47,11 +41,9 @@ man:
 	gzip /usr/local/share/man/man1/scanpf.1
 	mandb
 
-# build:
-# 	if [ -d "$(BUILD)/"]; then
-# 		#mkdir $(BUILD)
-# 		echo "TESTING"
-# 	fi
+.PHONY: build
+build:
+	if test ! -d $(BUILD); then mkdir $(BUILD); fi
 
 .PHONY: install
 install: scanpf
