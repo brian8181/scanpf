@@ -24,11 +24,11 @@ scanpf: scanpf.o
 scanpf.o: 
 	g++ $(CXXFLAGS) -c $(SRC)/scanpf.cpp -o $(BUILD)/scanpf.o
 
-regx: regx.o
-	g++ $(CXXFLAGS) $(BUILD)/regx.o -o $(BUILD)/regx
+# regx: regx.o
+# 	g++ $(CXXFLAGS) $(BUILD)/regx.o -o $(BUILD)/regx
 
-regx.o: 
-	g++ $(CXXFLAGS) -c $(SRC)/regx.cpp -o $(BUILD)/regx.o
+# regx.o: 
+# 	g++ $(CXXFLAGS) -c $(SRC)/regx.cpp -o $(BUILD)/regx.o
 
 unit_test: unit_test.o 000-CatchMain.o utility.o
 	g++ $(CXXFLAGS) $(BUILD)/unit_test.o $(BUILD)/000-CatchMain.o $(BUILD)/utility.o -o $(BUILD)/unit_test
@@ -41,6 +41,11 @@ unit_test.o: $(SRC)/unit_test.cpp 000-CatchMain.o utility.o
 
 utility.o: $(SRC)/utility.cpp
 	g++ $(CXXFLAGS) -c $(SRC)/utility.cpp -o $(BUILD)/utility.o
+
+man: 
+	cp ../man/scanpf.1 /usr/local/share/man/man1
+	gzip /usr/local/share/man/man1/scanpf.1
+	mandb
 
 # build:
 # 	if [ -d "$(BUILD)/"]; then
