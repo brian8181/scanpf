@@ -1,4 +1,5 @@
 # Output setting
+SHELL = /bin/sh
 SRC=../src
 BUILD=../build
 
@@ -17,38 +18,41 @@ debuggdb: CXXFLAGS += -DDEBUG -ggdb
 debuggdb: scanpf
 
 scanpf: scanpf.o
-	#g++ $(CXXFLAGS) $(BUILD)/$< -o $(BUILD)/$@
-	g++ $(CXXFLAGS) $(BUILD)/scanpf.o -o $(BUILD)/scanpf 
+	#$(CXX) $(CXXFLAGS) $(BUILD)/$< -o $(BUILD)/$@
+	$(CXX) $(CXXFLAGS) $(BUILD)/scanpf.o -o $(BUILD)/scanpf 
 
 scanpf.o: $(BUILD)
-	g++ $(CXXFLAGS) -c $(SRC)/scanpf.cpp -o $(BUILD)/scanpf.o
+	#$(CXX) $(CXXFLAGS) -c $(SRC)/$< -o $(BUILD)/$@
+	$(CXX) $(CXXFLAGS) -c $(SRC)/scanpf.cpp -o $(BUILD)/scanpf.o
 
 unit_test: unit_test.o 000-CatchMain.o utility.o
-	g++ $(CXXFLAGS) $(BUILD)/unit_test.o $(BUILD)/000-CatchMain.o $(BUILD)/utility.o -o $(BUILD)/unit_test
+	$(CXX) $(CXXFLAGS) $(BUILD)/unit_test.o $(BUILD)/000-CatchMain.o $(BUILD)/utility.o -o $(BUILD)/unit_test
 
 unit_test.o: $(BUILD) $(SRC)/unit_test.cpp 000-CatchMain.o utility.o
-	g++ $(CXXFLAGS) -c $(SRC)/unit_test.cpp -o $(BUILD)/unit_test.o
+	$(CXX) $(CXXFLAGS) -c $(SRC)/unit_test.cpp -o $(BUILD)/unit_test.o
 
 000-CatchMain.o: $(BUILD) $(SRC)/000-CatchMain.cpp
-	g++ $(CXXFLAGS) -c $(SRC)/000-CatchMain.cpp -o $(BUILD)/000-CatchMain.o
+	$(CXX) $(CXXFLAGS) -c $(SRC)/000-CatchMain.cpp -o $(BUILD)/000-CatchMain.o
 
 utility.o: $(BUILD) $(SRC)/utility.cpp
-	g++ $(CXXFLAGS) -c $(SRC)/utility.cpp -o $(BUILD)/utility.o
+	$(CXX) $(CXXFLAGS) -c $(SRC)/utility.cpp -o $(BUILD)/utility.o
 
 # install man pages
+.PHONY: man
 man: 
 	cp ../man/scanpf.1 /usr/local/share/man/man1
 	gzip /usr/local/share/man/man1/scanpf.1
 	mandb
 	
 # uninstall man pages
+.PHONY: unman
 unman:
 	rm /usr/local/share/man/man1/scanpf.1.gz
 	mandb
 
 $(BUILD):
-	if [ ! -d "./$(BUILD)" ];then     \
-			mkdir $(BUILD);           \
+	if [ ! -d "./$(BUILD)" ]; then 		\
+			mkdir $(BUILD);				\
 	fi
 
 .PHONY: install
