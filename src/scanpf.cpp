@@ -3,7 +3,7 @@
 #include <regex>
 #include <map>
 #include <fstream>
-#include <unistd.h>
+#include <getopt.h>
 
 using namespace std;
 
@@ -31,22 +31,30 @@ map<string, string> &create_map(const string &pattern, const string &s, map<stri
 string &create_formated_output(const string &s, map<string, string> &map, string &formated_output);
 void print_help();
 
+static struct option long_options[] =
+{
+    {"verbose", no_argument, 0, 'v'},
+    {"help", no_argument, 0, 'h'},
+    {"file", no_argument, 0, 'f'}
+};
+
 /*
 
  scanpf [opts] INPUT_PATTERN OUTPUT_PATTERN [INPUT ... ]
 
 */
 
-const unsigned int DEFAULT_ARGC = 4;
+const int DEFAULT_ARGC = 3;
 
 int main(int argc, char *argv[])
 {
-    int expected_argc = DEFAULT_ARGC;
-    int opt;
+    int opt = 0;
+    int option_index = 0;
     bool file_flag = false;
     bool verbose_flag = false;
     
-    while ((opt = getopt(argc, argv, "hvf")) != -1)
+    optind = 0;
+    while((opt = getopt_long(argc, argv, "hvf", long_options, &option_index)) != -1)
     {
         switch (opt)
         {
@@ -54,34 +62,23 @@ int main(int argc, char *argv[])
             print_help();
             return 0;
         case 'v':
-            ++expected_argc;
             verbose_flag = true;
             break;
         case 'f':
-            ++expected_argc;
             file_flag = true;
             break;
-        default: /* '?' */
-            fprintf(stderr, "Unexpected arguments check, -h for help\n");
+        default: // unknown option before args
+            fprintf(stderr, "Unexpected option, -h for help\n");
             return EXIT_FAILURE;
         }
     }
-    
-    if(argc > expected_argc)
-    {
-        //too many args
-        fprintf(stderr, "Unexpected argument after options, -h for help\n");
-        exit(EXIT_FAILURE);
 
-    }
-    else if (argc < expected_argc)
+    if (optind != (argc - DEFAULT_ARGC)) // not correct number of args
     {
-        //not enough args
-        fprintf(stderr, "Expected arguments after options, -h for help\n");
+        fprintf(stderr, "Expected argument after options, -h for help\n");
         exit(EXIT_FAILURE);
     }
-
-      
+          
     if (verbose_flag)
     {
         print_help();

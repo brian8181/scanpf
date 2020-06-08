@@ -5,11 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "g++ - scanpf test1",
+            "name": "scanpf test1",
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
-            "args": ["<a>. <b>", "<b>. <a>", "A.B"],
+            "args": ["<a>. <b>", "<b>. <a>", "A. B"],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -26,7 +26,28 @@
             "miDebuggerPath": "/usr/bin/gdb"
         },
         {
-            "name": "g++ - scanpf 2",
+            "name": "scanpf test2",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "args": ["-v", "<a>. <b>", "<b>. <a>", "A. B"],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "g++ build active file",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "scanpf 2",
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
@@ -47,7 +68,7 @@
             "miDebuggerPath": "/usr/bin/gdb"
         },
         {
-            "name": "g++ - scanpf 4",
+            "name": "scanpf 4",
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
@@ -68,7 +89,7 @@
             "miDebuggerPath": "/usr/bin/gdb"
         },
         {
-            "name": "g++ - no args",
+            "name": "scanpf - no args",
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
