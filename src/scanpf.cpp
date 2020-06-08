@@ -20,9 +20,9 @@ const string FMT_RESET = "\e[0m";
 // character sets allowed pattern for tag names
 const string TAG_MATCH_EXP_STR = R"(\<([A-z]+[A-z0-9]*)\>)"; // conservative match
 //const string TAG_MATCH_EXP_STR = R"(<[^<>]+>)";            // liberal match
+const string TAG_VALUE_EXP_STR = R"(.*)"; // value between tags
 //const string TAG_VALUE_EXP_STR = R"([A-z0-9 \^\$\.\*\+\:\'\[\]\{\}\(\)\|&%;,@#_-])";
 //const string TAG_VALUE_EXP_STR = R"(.*?)";
-const string TAG_VALUE_EXP_STR = R"(.*)"; // value between tags
 const regex TAG_EXP(TAG_MATCH_EXP_STR);
 
 // declare functions prototypes
