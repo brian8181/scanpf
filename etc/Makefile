@@ -5,7 +5,7 @@ BUILD=../build
 
 # Compiler settings - Can be customized.
 CXX = g++
-CXXFLAGS = -std=c++11 -Wall
+CXXFLAGS = -pedantic -std=c++11 -Wall
 # LDFLAGS
 # CPPFLAGS
 
