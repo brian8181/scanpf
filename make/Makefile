@@ -80,3 +80,4 @@ clean:
 
 archive: all
 	git archive master | gzip > $(BUILD)/scanpf.latest.tgz
+
