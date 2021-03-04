@@ -28,3 +28,4 @@ stamp-h1
 src/.deps/
 src/.dirstamp
 src/scanpf.o
+scanpf
