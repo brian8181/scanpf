@@ -1,65 +1,31 @@
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
-
-
-# Tree
-src/scanpf
-autom4te.cache/*
-
 aclocal.m4
-configure
-
-build/*
-config.h.in
-depcomp
-install-sh
-Makefile.in
-build/scanpf
-bak/octave-workspace
-scanpf.latest.tgz
-etc/debug_map.cpp
+AUTHORS
+/autom4te.cache
+ChangeLog
+/build
 compile
-stamp-h1
-config.status
-config.log
-
-src/.deps/*
-
-.deps/utility.Po
-.deps/unit_test.Po
-.deps/scanpf.Po
-.deps/m000-CatchMain.Po
-.vscode/settings.json
-src/.dirstamp
 config.h
+config.h.in
 config.h.in~
+config.log
+config.status
+configure
+depcomp
+/.deps
+install-sh
+/m4
+Makefile
+Makefile.in
+man
+missing
+NEWS
+po
+README
+README.md
+scanpf
+scanpf-0.0.1.tar.gz
+stamp-h1
+
+src/.deps/
+src/.dirstamp
+src/scanpf.o
