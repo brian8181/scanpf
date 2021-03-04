@@ -2067,7 +2067,9 @@ struct ratio_string<std::micro> {
 };
 template <>
 struct ratio_string<std::milli> {
-    static std::string symbol();
+#endif // CATCH_CONFIG_ENABLE_PAIR_STRINGMAKER
+
+#if defined(CATCH_CONFIG_ENABLE_OPTIONAL_STRINGMAKER) && defined(CATCH_CONFIG_CPP17_OPTIONAL)
 };
 
     ////////////
@@ -2184,6 +2186,9 @@ namespace Catch {
 
         // We don't actually need a virtual destructor, but many static analysers
         // complain if it's not here :-(
+#endif // CATCH_CONFIG_ENABLE_PAIR_STRINGMAKER
+
+#if defined(CATCH_CONFIG_ENABLE_OPTIONAL_STRINGMAKER) && defined(CATCH_CONFIG_CPP17_OPTIONAL)
         virtual ~ITransientExpression();
 
         bool m_isBinaryExpression;
@@ -2194,6 +2199,9 @@ namespace Catch {
     void formatReconstructedExpression( std::ostream &os, std::string const& lhs, StringRef op, std::string const& rhs );
 
     template<typename LhsT, typename RhsT>
+#endif // CATCH_CONFIG_ENABLE_PAIR_STRINGMAKER
+
+#if defined(CATCH_CONFIG_ENABLE_OPTIONAL_STRINGMAKER) && defined(CATCH_CONFIG_CPP17_OPTIONAL)
     class BinaryExpr  : public ITransientExpression {
         LhsT m_lhs;
         StringRef m_op;

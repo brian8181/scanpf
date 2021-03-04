@@ -7,11 +7,12 @@
 
 using namespace std;
 
+#include "bash_color.h"
 // shell color constants
-const string FMT_FG_GREEN = "\e[32m";
-const string FMT_UNDERLINE = "\e[4m";
-const string FMT_BOLD = "\e[1m";
-const string FMT_RESET = "\e[0m";
+// const string FMT_FG_GREEN = "\e[32m";
+// const string FMT_UNDERLINE = "\e[4m";
+// const string FMT_BOLD = "\e[1m";
+// const string FMT_RESET = "\e[0m";
 
 // regx special chars = ^ $ \ . * + ? ( ) [ ] { } | :
 // ~!@#$%^&*()_+`-=[]\{}|;':",./<>?"

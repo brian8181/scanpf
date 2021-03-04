@@ -1,7 +1,7 @@
 # Output setting
 SHELL = /bin/sh
-SRC=../src
-BUILD=../build
+SRC=./src
+BUILD=./build
 
 # Compiler settings - Can be customized.
 CXX = g++
@@ -42,7 +42,7 @@ utility.o: $(BUILD) $(SRC)/utility.cpp
 man: 
 	cp ../man/scanpf.1 /usr/local/share/man/man1
 	gzip /usr/local/share/man/man1/scanpf.1
-	mandb
+	mandblibtag.so.1.17.0
 	
 # uninstall man pages
 .PHONY: unman

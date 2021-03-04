@@ -11,4 +11,4 @@ lame --preset medium \"/media/brian/TOSHIBA EXT/music/albums/<artist>/<album>/<t
 #./copy.sh
 
 
-    ./scanpf -f "\"/media/brian/TOSHIBA EXT/music/albums/<artist>/<album>/<track>. <title>.flac\"" "\"/media/brian/TOSHIBA EXT/music/albums/<artist>/<album>/<track>. <title>.flac\"" "/home/brian/tmp/flac-test.txt"
+./scanpf -f "\"/media/brian/TOSHIBA EXT/music/albums/<artist>/<album>/<track>. <title>.flac\"" "\"/media/brian/TOSHIBA EXT/music/albums/<artist>/<album>/<track>. <title>.flac\"" "/home/brian/tmp/flac-test.txt"

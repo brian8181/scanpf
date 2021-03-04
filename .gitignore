@@ -53,3 +53,13 @@ stamp-h1
 config.status
 config.log
 
+src/.deps/*
+
+.deps/utility.Po
+.deps/unit_test.Po
+.deps/scanpf.Po
+.deps/m000-CatchMain.Po
+.vscode/settings.json
+src/.dirstamp
+config.h
+config.h.in~
