@@ -5,7 +5,6 @@ AC_INIT([scanpf], [0.0.1], [brian8181@gmail.com])
 AC_CONFIG_SRCDIR([src/scanpf.cpp])
 # Put configuration results here, so we can easily #include them:
 AC_CONFIG_HEADERS([config.h])
-
 # Put autotools auxiliary files in a subdir, so they don't clutter top dir:
 AC_CONFIG_AUX_DIR([build-aux])
 
