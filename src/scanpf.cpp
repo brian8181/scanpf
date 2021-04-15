@@ -9,15 +9,9 @@
 using namespace std;
 
 // regx special chars = ^ $ \ . * + ? ( ) [ ] { } | :
-// ~!@#$%^&*()_+`-=[]\{}|;':",./<>?"
-// ~!@#\\$%\\^&\\*\\(\\)_\\+`-=\\[\\]\\\\\{\\}\\|;':"\\,\\./<>\\?" ESCAPED
-
 // character sets allowed pattern for tag names
 const string TAG_MATCH_EXP_STR = R"(\<([A-z]+[A-z0-9]*)\>)"; // conservative match
-//const string TAG_MATCH_EXP_STR = R"(<[^<>]+>)";            // liberal match
-const string TAG_VALUE_EXP_STR = R"(.*)"; // value between tags
-//const string TAG_VALUE_EXP_STR = R"([A-z0-9 \^\$\.\*\+\:\'\[\]\{\}\(\)\|&%;,@#_-])";
-//const string TAG_VALUE_EXP_STR = R"(.*?)";
+const string TAG_VALUE_EXP_STR = R"(.*)";                    // value between tags
 const regex TAG_EXP(TAG_MATCH_EXP_STR);
 
 // declare functions prototypes
@@ -48,7 +42,7 @@ int main(int argc, char *argv[])
     bool file_flag = false;
     bool verbose_flag = false;
     
-    optind = 0;
+    optind = 0; // is this needed ?????
     while((opt = getopt_long(argc, argv, "hvf", long_options, &option_index)) != -1)
     {
         switch (opt)
@@ -88,7 +82,6 @@ int main(int argc, char *argv[])
         map<string, string> tag_map;
         create_map(input_pattern_str, input_str, tag_map);
         string formated_out;
-
         create_formated_output(output_pattern_str, tag_map, formated_out);
         cout << formated_out << endl;
     }
@@ -119,11 +112,9 @@ map<string, string>& create_map(const string &pattern, const string &s, map<stri
     replace_all(pattern_cpy, ".", "\\.");
     const string REPLACE_EXP_STR = "^" + regex_replace(pattern_cpy, TAG_EXP, "(" + TAG_VALUE_EXP_STR + ")") + "$";
     const regex REPLACE_EXP(REPLACE_EXP_STR);
-
     // create smatch
     smatch sm;
     regex_match(s, sm, REPLACE_EXP);
-
     // iterate through tag matches and create map
     int idx = 1;
     auto begin = sregex_iterator(pattern_cpy.begin(), pattern_cpy.end(), TAG_EXP);
@@ -134,7 +125,6 @@ map<string, string>& create_map(const string &pattern, const string &s, map<stri
         smatch match = *i;
         map.insert(make_pair(match.str(1), sm.str(idx++)));
     }
-
     return map;
 }
 
@@ -143,7 +133,7 @@ string& create_formated_output(const string& s, map<string, string>& map, string
 
     auto begin = sregex_iterator(s.begin(), s.end(), TAG_EXP);
     auto end = sregex_iterator();
-    formated_output = s; // copy s>
+    formated_output = s; 
     int format_str_pos = 0;
     int format_str_end = 0;
     int output_str_pos = 0;
@@ -153,7 +143,6 @@ string& create_formated_output(const string& s, map<string, string>& map, string
     {
         smatch match = *i;
         string tag_value = map[match.str(1)];
-
         // get current match position
         format_str_pos = match.position();
         // set realtive to last end
