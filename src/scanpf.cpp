@@ -4,15 +4,9 @@
 #include <map>
 #include <fstream>
 #include <getopt.h>
+#include "bash_color.h"
 
 using namespace std;
-
-#include "bash_color.h"
-// shell color constants
-// const string FMT_FG_GREEN = "\e[32m";
-// const string FMT_UNDERLINE = "\e[4m";
-// const string FMT_BOLD = "\e[1m";
-// const string FMT_RESET = "\e[0m";
 
 // regx special chars = ^ $ \ . * + ? ( ) [ ] { } | :
 // ~!@#$%^&*()_+`-=[]\{}|;':",./<>?"
@@ -27,9 +21,9 @@ const string TAG_VALUE_EXP_STR = R"(.*)"; // value between tags
 const regex TAG_EXP(TAG_MATCH_EXP_STR);
 
 // declare functions prototypes
-void replace_all(string &s, const string &sub_str, const string &replace_str);
-map<string, string> &create_map(const string &pattern, const string &s, map<string, string> &map);
-string &create_formated_output(const string &s, map<string, string> &map, string &formated_output);
+void replace_all(string& s, const string& sub_str, const string& replace_str);
+map<string, string>& create_map(const string& pattern, const string& s, map<string, string>& map);
+string& create_formated_output(const string& s, map<string, string>& map, string& formated_output);
 void print_help();
 
 static struct option long_options[] =
@@ -117,7 +111,7 @@ int main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 
-map<string, string> &create_map(const string &pattern, const string &s, map<string, string> &map)
+map<string, string>& create_map(const string &pattern, const string &s, map<string, string> &map)
 {
     // create copy of pattern
     string pattern_cpy = pattern;
@@ -144,7 +138,7 @@ map<string, string> &create_map(const string &pattern, const string &s, map<stri
     return map;
 }
 
-string &create_formated_output(const string &s, map<string, string> &map, string &formated_output)
+string& create_formated_output(const string& s, map<string, string>& map, string& formated_output)
 {
 
     auto begin = sregex_iterator(s.begin(), s.end(), TAG_EXP);
@@ -176,7 +170,7 @@ string &create_formated_output(const string &s, map<string, string> &map, string
     return formated_output;
 }
 
-void replace_all(string &s, const string &sub_str, const string &replace_str)
+void replace_all(string& s, const string& sub_str, const string& replace_str)
 {
     size_t pos = 0;
     size_t len = s.length();
