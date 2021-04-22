@@ -35,7 +35,7 @@ static struct option long_options[] =
 
 const int DEFAULT_ARGC = 3;
 
-int main(int argc, char *argv[])
+int parse_options(int argc, char *argv[])
 {
     int opt = 0;
     int option_index = 0;
