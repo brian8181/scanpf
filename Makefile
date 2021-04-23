@@ -1,15 +1,28 @@
-# Output setting
-SHELL = /bin/sh
-SRC=./src
-BUILD=./build
+MAKE_TEMPLATE = 1.1;
+# RUN BEFORE autoreconf -ivfm
+BUILD_VERSION = 0.1.0
+
+prefix = /usr/local
+mandir = $(prefix)/share/man
+man1dir = $(mandir)/man1
 
 # Compiler settings - Can be customized.
 CXX = g++
 CXXFLAGS = -Wall -std=c++11 -std=c++17 --std=c++2a
-# LDFLAGS
-# CPPFLAGS
 
-all: scanpf unit_test
+# lib settings
+# LDFLAGS =
+# INCLUDES= 
+# add addtional libs here
+
+# Makefile settings - Can be customized.
+APPNAME = rx
+EXT = cpp
+SHELL=/bin/sh
+SRC=./src
+BUILD=./build
+
+all: scanpf
 
 debug: CXXFLAGS += -DDEBUG -g
 debug: scanpf
@@ -26,15 +39,14 @@ scanpf.o: $(BUILD)
 	$(CXX) $(CXXFLAGS) -c $(SRC)/scanpf.cpp -o $(BUILD)/scanpf.o
 	$(CXX) $(CXXFLAGS) -c $(SRC)/main.cpp -o $(BUILD)/main.o
 
+# unit_test: unit_test.o 000-CatchMain.o utility.o
+# 	$(CXX) $(CXXFLAGS) $(BUILD)/unit_test.o $(BUILD)/000-CatchMain.o $(BUILD)/utility.o -o $(BUILD)/unit_test
 
-unit_test: unit_test.o 000-CatchMain.o utility.o
-	$(CXX) $(CXXFLAGS) $(BUILD)/unit_test.o $(BUILD)/000-CatchMain.o $(BUILD)/utility.o -o $(BUILD)/unit_test
+# unit_test.o: $(BUILD) $(SRC)/unit_test.cpp 000-CatchMain.o utility.o
+# 	$(CXX) $(CXXFLAGS) -c $(SRC)/unit_test.cpp -o $(BUILD)/unit_test.o
 
-unit_test.o: $(BUILD) $(SRC)/unit_test.cpp 000-CatchMain.o utility.o
-	$(CXX) $(CXXFLAGS) -c $(SRC)/unit_test.cpp -o $(BUILD)/unit_test.o
-
-000-CatchMain.o: $(BUILD) $(SRC)/000-CatchMain.cpp
-	$(CXX) $(CXXFLAGS) -c $(SRC)/000-CatchMain.cpp -o $(BUILD)/000-CatchMain.o
+# 000-CatchMain.o: $(BUILD) $(SRC)/000-CatchMain.cpp
+# 	$(CXX) $(CXXFLAGS) -c $(SRC)/000-CatchMain.cpp -o $(BUILD)/000-CatchMain.o
 
 utility.o: $(BUILD) $(SRC)/utility.cpp
 	$(CXX) $(CXXFLAGS) -c $(SRC)/utility.cpp -o $(BUILD)/utility.o

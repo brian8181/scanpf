@@ -21,19 +21,19 @@
             "problemMatcher": [
                 "$gcc"
             ],
+            "group": "build"
+        },
+        {
+            "label": "MAKE DEBUGGDB",
+            "type": "shell",
+            "command": "make",
+            "problemMatcher": [
+                "$gcc"
+            ],
             "group": {
                 "kind": "build",
                 "isDefault": true
             }
-        },
-        // {
-        //     "label": "MAKE DEBUGGDB",
-        //     "type": "shell",
-        //     "command": "make debuggdb",
-        //     "group": {
-        //         "kind": "build",
-        //         "isDefault": true
-        //     }
-    	// }
+        }
     ]
 }

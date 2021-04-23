@@ -2067,9 +2067,7 @@ struct ratio_string<std::micro> {
 };
 template <>
 struct ratio_string<std::milli> {
-#endif // CATCH_CONFIG_ENABLE_PAIR_STRINGMAKER
-
-#if defined(CATCH_CONFIG_ENABLE_OPTIONAL_STRINGMAKER) && defined(CATCH_CONFIG_CPP17_OPTIONAL)
+    static std::string symbol();
 };
 
     ////////////
