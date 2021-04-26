@@ -5,11 +5,13 @@
 #include <fstream>
 #include <getopt.h>
 #include "bash_color.h"
+#include "scanpf.hpp"
 
 using namespace std;
 
 // regx special chars = ^ $ \ . * + ? ( ) [ ] { } | :
 // character sets allowed pattern for tag names
+//const string MATCH_EXP_OPTIONAL = R"(\[([A-z]+[A-z0-9]*)\])";
 const string TAG_MATCH_EXP_STR = R"(\<([A-z]+[A-z0-9]*)\>)"; // conservative match
 const string TAG_VALUE_EXP_STR = R"(.*)";                    // value between tags
 const regex TAG_EXP(TAG_MATCH_EXP_STR);
@@ -18,7 +20,7 @@ const regex TAG_EXP(TAG_MATCH_EXP_STR);
 void replace_all(string& s, const string& sub_str, const string& replace_str);
 map<string, string>& create_map(const string& pattern, const string& s, map<string, string>& map);
 string& create_formated_output(const string& s, map<string, string>& map, string& formated_output);
-void print_help();
+void print_help(); 
 
 static struct option long_options[] =
 {
@@ -32,8 +34,6 @@ static struct option long_options[] =
  scanpf [opts] INPUT_PATTERN OUTPUT_PATTERN [INPUT ... ]
 
 */
-
-const int DEFAULT_ARGC = 3;
 
 int parse_options(int argc, char *argv[])
 {

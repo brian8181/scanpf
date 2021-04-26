@@ -1,6 +1,7 @@
 #include "catch.hpp"
 #include "utility.h"
 #include <string>
+#include "scanpf.hpp"
 
 unsigned int Factorial( unsigned int number ) {
     return number <= 1 ? number : Factorial(number-1)*number;
@@ -47,10 +48,13 @@ TEST_CASE("Replace All")
     REQUIRE_FALSE( s != "Hello AFTER this [AFTER] <AFTER> AFTER" );
 }
 
-// TEST_CASE("Test1", "scanpf")
-// {
+TEST_CASE("Test1", "scanpf")
+{
+    char* pc = "/path";
+    char* argv[] = new char[3];
     
-// }
+    parse_options();
+}
 
 // g++ utility.cpp unit_test.cpp -o unit_test
 // Compile implementation of Catch for use with files that do contain tests:

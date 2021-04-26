@@ -18,9 +18,9 @@ CXXFLAGS = -Wall -std=c++11 -std=c++17 --std=c++2a
 # Makefile settings - Can be customized.
 APPNAME = rx
 EXT = cpp
-SHELL=/bin/sh
-SRC=./src
-BUILD=./build
+SHELL= /bin/sh
+SRC = ./src
+BUILD = ./build
 
 all: scanpf
 
@@ -31,11 +31,9 @@ debuggdb: CXXFLAGS += -DDEBUG -ggdb
 debuggdb: scanpf
 
 scanpf: scanpf.o
-	#$(CXX) $(CXXFLAGS) $(BUILD)/$< -o $(BUILD)/$@
 	$(CXX) $(CXXFLAGS) $(BUILD)/scanpf.o $(BUILD)/main.o -o $(BUILD)/scanpf 
 
 scanpf.o: $(BUILD)
-	#$(CXX) $(CXXFLAGS) -c $(SRC)/$< -o $(BUILD)/$@
 	$(CXX) $(CXXFLAGS) -c $(SRC)/scanpf.cpp -o $(BUILD)/scanpf.o
 	$(CXX) $(CXXFLAGS) -c $(SRC)/main.cpp -o $(BUILD)/main.o
 
