@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
     termios t;
     if (tcgetattr(STDIN_FILENO, &t) < 0)
     {
-	    string buffer;
+	string buffer;
         cin >> buffer;
         // add piped buffer to end of args
         char* argvtmp[sizeof(char*) * argc+1];
