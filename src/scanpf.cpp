@@ -32,7 +32,7 @@ static struct option long_options[] =
 /*
 
  scanpf [opts] INPUT_PATTERN OUTPUT_PATTERN [INPUT ... ]
-
+ 
 */
 
 int parse_options(int argc, char *argv[])
@@ -55,7 +55,7 @@ int parse_options(int argc, char *argv[])
             break;
         case 'f':
             file_flag = true;
-            break;
+            break; 
         default: // unknown option before args
             fprintf(stderr, "Unexpected option, -h for help\n");
             return EXIT_FAILURE;
@@ -70,7 +70,7 @@ int parse_options(int argc, char *argv[])
           
     if (verbose_flag)
     {
-        print_help();
+        print_help(); 
     }
 
     string input_pattern_str(argv[optind]);
@@ -101,7 +101,7 @@ int parse_options(int argc, char *argv[])
             cout << formated_out << endl;
         }
     }
-    exit(EXIT_SUCCESS);
+    return 0;
 }
 
 map<string, string>& create_map(const string &pattern, const string &s, map<string, string> &map)
@@ -126,11 +126,10 @@ map<string, string>& create_map(const string &pattern, const string &s, map<stri
         map.insert(make_pair(match.str(1), sm.str(idx++)));
     }
     return map;
-}
+} 
 
 string& create_formated_output(const string& s, map<string, string>& map, string& formated_output)
 {
-
     auto begin = sregex_iterator(s.begin(), s.end(), TAG_EXP);
     auto end = sregex_iterator();
     formated_output = s; 
@@ -142,7 +141,7 @@ string& create_formated_output(const string& s, map<string, string>& map, string
     for (sregex_iterator i = begin; i != end; ++i)
     {
         smatch match = *i;
-        string tag_value = map[match.str(1)];
+        string tag_value = map[match.str(1)]; 
         // get current match position
         format_str_pos = match.position();
         // set realtive to last end
@@ -155,7 +154,6 @@ string& create_formated_output(const string& s, map<string, string>& map, string
         // set pos to end of replace
         output_str_pos += tag_value.length();
     }
-
     return formated_output;
 }
 
