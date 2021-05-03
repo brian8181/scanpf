@@ -1,5 +1,5 @@
 # Process this file with autoconf to produce a configure script.
-AC_PREREQ([2.69])
+AC_PREREQ([2.69]) 
 AC_INIT([scanpf], [0.0.1], [brian8181@gmail.com])
 # Safety check - list a source file that wouldn't be in other directories:
 AC_CONFIG_SRCDIR([src/scanpf.cpp])
@@ -17,11 +17,11 @@ AC_PROG_CC
 
 # ======================================
 # Check for various headers and settings
-# ======================================
+# ====================================== 
 #AC_CHECK_HEADERS([netinet/in.h])
 
 #AC_CHECK_FUNCS([memset])
-#AC_CHECK_HEADERS([netinet/in.h])
+#AC_CHECK_HEADERS([netinet/in.h]) 
 #AC_CHECK_HEADER_STDBOOL
 #AC_PROG_INSTALL
 
