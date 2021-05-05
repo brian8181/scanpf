@@ -1,0 +1,9 @@
+./scanpf "<a>.<c>.<b>" "<b>.<c>.<a>" "A.B.C"
+$> C.B.A
+./scanpf "[<a>].<c>.<b>" "<b>.<c>.<a>" "A.B.C" 
+$> C.B.A
+
+
+#Test
+./scanpf "[<a>].<c>.<b>" "<b>.<c>." "A.B.C"
+expected $> B.C.

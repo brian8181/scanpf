@@ -11,9 +11,9 @@ using namespace std;
 
 // regx special chars = ^ $ \ . * + ? ( ) [ ] { } | :
 // character sets allowed pattern for tag names
-//const string MATCH_EXP_OPTIONAL = R"(\[([A-z]+[A-z0-9]*)\])";
-const string TAG_MATCH_EXP_STR = R"(\<([A-z]+[A-z0-9]*)\>)"; // conservative match
-const string TAG_VALUE_EXP_STR = R"(.*)";                    // value between tags
+//const string MATCH_EXP_OPTIONAL = R"(\[?([A-z]+[A-z0-9]*)\]?)"; 
+const string TAG_MATCH_EXP_STR = R"(\[?\<([A-z]+[A-z0-9]*)\>\]?)"; // conservative match
+const string TAG_VALUE_EXP_STR = R"(.*)";                          // value between tags
 const regex TAG_EXP(TAG_MATCH_EXP_STR);
 
 // declare functions prototypes

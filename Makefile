@@ -33,21 +33,21 @@ debuggdb: scanpf
 scanpf: scanpf.o
 	$(CXX) $(CXXFLAGS) $(BUILD)/scanpf.o $(BUILD)/main.o -o $(BUILD)/scanpf 
 
-scanpf.o: $(BUILD)
+scanpf.o: create_build_dir
 	$(CXX) $(CXXFLAGS) -c $(SRC)/scanpf.cpp -o $(BUILD)/scanpf.o
 	$(CXX) $(CXXFLAGS) -c $(SRC)/main.cpp -o $(BUILD)/main.o
 
-# unit_test: unit_test.o 000-CatchMain.o utility.o
+# unit_test: unit_test.o 000-CatchMain.o 
 # 	$(CXX) $(CXXFLAGS) $(BUILD)/unit_test.o $(BUILD)/000-CatchMain.o $(BUILD)/utility.o -o $(BUILD)/unit_test
 
-# unit_test.o: $(BUILD) $(SRC)/unit_test.cpp 000-CatchMain.o utility.o
+# unit_test.o: 
 # 	$(CXX) $(CXXFLAGS) -c $(SRC)/unit_test.cpp -o $(BUILD)/unit_test.o
 
-# 000-CatchMain.o: $(BUILD) $(SRC)/000-CatchMain.cpp
+# 000-CatchMain.o: 
 # 	$(CXX) $(CXXFLAGS) -c $(SRC)/000-CatchMain.cpp -o $(BUILD)/000-CatchMain.o
 
-utility.o: $(BUILD) $(SRC)/utility.cpp
-	$(CXX) $(CXXFLAGS) -c $(SRC)/utility.cpp -o $(BUILD)/utility.o
+# utility.o: $(BUILD) $(SRC)/utility.cpp
+# 	$(CXX) $(CXXFLAGS) -c $(SRC)/utility.cpp -o $(BUILD)/utility.o
 
 # install man pages
 .PHONY: man
@@ -62,7 +62,7 @@ unman:
 	rm /usr/local/share/man/man1/scanpf.1.gz
 	mandb
 
-$(BUILD):
+create_build_dir:
 	if [ ! -d "./$(BUILD)" ]; then 		\
 			mkdir $(BUILD);				\
 	fi
