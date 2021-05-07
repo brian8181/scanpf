@@ -7,3 +7,8 @@ $> C.B.A
 #Test
 ./scanpf "[<a>].<c>.<b>" "<b>.<c>." "A.B.C"
 expected $> B.C.
+
+
+./rx "\babc" "aa abc"
+./rx "\babc" "aaabc"
+./rx "\\<a\\>" "<a>"

@@ -13,15 +13,14 @@ int main(int argc, char* argv[])
     termios t;
     if (tcgetattr(STDIN_FILENO, &t) < 0)
     {
-	string buffer;
+	    string buffer;
         cin >> buffer;
         // add piped buffer to end of args
         char* argvtmp[sizeof(char*) * argc+1];
         memcpy(argvtmp, argv, sizeof(char*) * argc);
         argvtmp[argc] = &buffer[0];
         argv = argvtmp;
-
-        return parse_options(++argc, argv);
+         return parse_options(++argc, argv);
     }
     return parse_options(argc, argv);
 }

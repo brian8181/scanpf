@@ -12,8 +12,9 @@ using namespace std;
 // regx special chars = ^ $ \ . * + ? ( ) [ ] { } | :
 // character sets allowed pattern for tag names
 //const string MATCH_EXP_OPTIONAL = R"(\[?([A-z]+[A-z0-9]*)\]?)"; 
-const string TAG_MATCH_EXP_STR = R"(\[?\<([A-z]+[A-z0-9]*)\>\]?)"; // conservative match
-const string TAG_VALUE_EXP_STR = R"(.*)";                          // value between tags
+const string TAG_MATCH_EXP_STR = R"(\<([A-z]+[A-z0-9]*)\>)";                 // conservative match
+//const string TAG_MATCH_EXP_STR = R"((^|[^\[])<([A-z]+[A-z0-9]*)>($|[^\]]))"; // conservative match
+const string TAG_VALUE_EXP_STR = R"(.*)";                              // value between tags
 const regex TAG_EXP(TAG_MATCH_EXP_STR);
 
 // declare functions prototypes
@@ -32,7 +33,7 @@ static struct option long_options[] =
 /*
 
  scanpf [opts] INPUT_PATTERN OUTPUT_PATTERN [INPUT ... ]
- 
+  
 */
 
 int parse_options(int argc, char *argv[])
@@ -49,7 +50,7 @@ int parse_options(int argc, char *argv[])
         {
         case 'h':
             print_help();
-            return 0;
+            return 0; 
         case 'v':
             verbose_flag = true;
             break;
@@ -138,9 +139,10 @@ string& create_formated_output(const string& s, map<string, string>& map, string
     int output_str_pos = 0;
     int relative_pos = 0;
 
-    for (sregex_iterator i = begin; i != end; ++i)
+    for (sregex_iterator iter = begin; iter != end; ++iter)
     {
-        smatch match = *i;
+        smatch match = *iter;
+        // get second match
         string tag_value = map[match.str(1)]; 
         // get current match position
         format_str_pos = match.position();
