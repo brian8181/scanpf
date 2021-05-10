@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
         memcpy(argvtmp, argv, sizeof(char*) * argc);
         argvtmp[argc] = &buffer[0];
         argv = argvtmp;
-         return parse_options(++argc, argv);
+        return parse_options(++argc, argv);
     }
     return parse_options(argc, argv);
 }

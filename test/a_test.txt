@@ -12,3 +12,4 @@ expected $> B.C.
 ./rx "\babc" "aa abc"
 ./rx "\babc" "aaabc"
 ./rx "\\<a\\>" "<a>"
+./rx "^\\<a\\>" "<a>" 
