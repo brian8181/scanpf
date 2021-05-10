@@ -2,7 +2,6 @@ aclocal.m4
 AUTHORS
 /autom4te.cache
 ChangeLog
-/build
 compile
 config.h
 config.h.in
