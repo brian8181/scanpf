@@ -22,7 +22,7 @@ SHELL = /bin/bash
 SRC_DIR = ~/src/scanpf/src
 BUILD_DIR = ~/src/scanpf/build
 
-all: scanpf
+all: scanpf utility.o
 
 debug: CXXFLAGS += -DDEBUG -g
 debug: scanpf
@@ -38,16 +38,16 @@ scanpf.o:
 	$(CXX) $(CXXFLAGS) -c $(SRC_DIR)/main.cpp -o $(BUILD_DIR)/main.o
 
 # unit_test: unit_test.o 000-CatchMain.o 
-# 	$(CXX) $(CXXFLAGS) $(BUILD_DIR)/unit_test.o $(BUILD_DIR)/000-CatchMain.o $(BUILD_DIR)/utility.o -o $(BUILD_DIR)/unit_test
+#  	$(CXX) $(CXXFLAGS) $(BUILD_DIR)/unit_test.o $(BUILD_DIR)/000-CatchMain.o $(BUILD_DIR)/utility.o -o $(BUILD_DIR)/unit_test
 
 # unit_test.o: 
-# 	$(CXX) $(CXXFLAGS) -c $(SRC_DIR)/unit_test.cpp -o $(BUILD_DIR)/unit_test.o
+#  	$(CXX) $(CXXFLAGS) -c $(SRC_DIR)/unit_test.cpp -o $(BUILD_DIR)/unit_test.o
 
 # 000-CatchMain.o: 
-# 	$(CXX) $(CXXFLAGS) -c $(SRC_DIR)/000-CatchMain.cpp -o $(BUILD_DIR)/000-CatchMain.o
+#  	$(CXX) $(CXXFLAGS) -c $(SRC_DIR)/000-CatchMain.cpp -o $(BUILD_DIR)/000-CatchMain.o
 
-# utility.o: $BUILD_DIR) $(SRC_DIR)/utility.cpp
-# 	$(CXX) $(CXXFLAGS) -c $(SRC_DIR)/utility.cpp -o $(BUILD_DIR)/utility.o
+utility.o: 
+	$(CXX) $(CXXFLAGS) -c $(SRC_DIR)/utility.cpp -o $(BUILD_DIR)/utility.o
 
 # install man pages
 .PHONY: man
