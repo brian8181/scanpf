@@ -11,10 +11,10 @@ using namespace std;
 
 // regx special chars = ^ $ \ . * + ? ( ) [ ] { } | :
 // character sets allowed pattern for tag names
-//const string MATCH_EXP_OPTIONAL = R"(\[?([A-z]+[A-z0-9]*)\]?)"; 
-const string TAG_MATCH_EXP_STR = R"(\<([A-z]+[A-z0-9]*)\>)";                 // conservative match
-//const string TAG_MATCH_EXP_STR = R"((^|[^\[])<([A-z]+[A-z0-9]*)>($|[^\]]))"; // conservative match
-const string TAG_VALUE_EXP_STR = R"(.*)";                              // value between tags
+//const string MATCH_EXP_OPTIONAL = R"(\[?([A-z]+[A-z0-9]*)\]?)";
+const string TAG_MATCH_EXP_STR = R"(\<([A-z]+[A-z0-9]*)\>)";                    // conservative match
+//const string TAG_MATCH_EXP_STR = R"((^|[^\[])<([A-z]+[A-z0-9]*)>($|[^\]]))";  // conservative match
+const string TAG_VALUE_EXP_STR = R"(.*)";                                       // value between tags
 const regex TAG_EXP(TAG_MATCH_EXP_STR);
 
 // declare functions prototypes
@@ -36,7 +36,7 @@ static struct option long_options[] =
   
 */
 
-int parse_options(int argc, char *argv[])
+int parse_options(int argc, char* argv[])
 {
     int opt = 0;
     int option_index = 0;
@@ -92,7 +92,6 @@ int parse_options(int argc, char *argv[])
         map<string, string> tag_map;
         string formated_out;
         std::ifstream file(input_str);
-
         while (std::getline(file, input_str))
         {
             tag_map.clear();
@@ -108,7 +107,7 @@ int parse_options(int argc, char *argv[])
 map<string, string>& create_map(const string &pattern, const string &s, map<string, string> &map)
 {
     // create copy of pattern
-    string pattern_cpy = pattern;
+    string pattern_cpy = pattern; 
     // create regx from pattern
     replace_all(pattern_cpy, ".", "\\.");
     const string REPLACE_EXP_STR = "^" + regex_replace(pattern_cpy, TAG_EXP, "(" + TAG_VALUE_EXP_STR + ")") + "$";
@@ -118,6 +117,7 @@ map<string, string>& create_map(const string &pattern, const string &s, map<stri
     regex_match(s, sm, REPLACE_EXP);
     // iterate through tag matches and create map
     int idx = 1;
+
     auto begin = sregex_iterator(pattern_cpy.begin(), pattern_cpy.end(), TAG_EXP);
     auto end = sregex_iterator();
 
@@ -154,7 +154,7 @@ string& create_formated_output(const string& s, map<string, string>& map, string
         // replace <tag> with tag value
         formated_output.replace(output_str_pos, match.length(), tag_value);
         // set pos to end of replace
-        output_str_pos += tag_value.length();
+        output_str_pos += tag_value.length();formated_output = s; 
     }
     return formated_output;
 }

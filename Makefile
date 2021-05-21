@@ -8,7 +8,7 @@ man1dir = $(mandir)/man1
 
 # Compiler settings - Can be customized.
 CXX = g++
-CXXFLAGS = -Wall -std=c++11
+CXXFLAGS = -Wall -std=c++11 -std=c++17 --std=c++2a
 
 # lib settings
 # LDFLAGS =
@@ -16,11 +16,11 @@ CXXFLAGS = -Wall -std=c++11
 # add addtional libs here
 
 # Makefile settings - Can be customized.
-APP_NAME = scanpf
+APPNAME = scanpf
 EXT = cpp
-SHELL = /bin/bash
-SRC_DIR = ~/src/scanpf/src
-BUILD_DIR = ~/src/scanpf/build
+SHELL= /bin/bash
+SRC = ~/src/scanpf/src
+BUILD = ~/scr/scanpf/build:
 
 all: scanpf
 
@@ -31,23 +31,23 @@ debuggdb: CXXFLAGS += -DDEBUG -ggdb
 debuggdb: scanpf
 
 scanpf: scanpf.o
-	$(CXX) $(CXXFLAGS) $(BUILD_DIR)/scanpf.o $(BUILD_DIR)/main.o -o $(BUILD_DIR)/scanpf 
+	$(CXX) $(CXXFLAGS) $(BUILD)/scanpf.o $(BUILD)/main.o -o $(BUILD)/scanpf 
 
 scanpf.o: 
-	$(CXX) $(CXXFLAGS) -c $(SRC_DIR)/scanpf.cpp -o $(BUILD_DIR)/scanpf.o
-	$(CXX) $(CXXFLAGS) -c $(SRC_DIR)/main.cpp -o $(BUILD_DIR)/main.o
+	$(CXX) $(CXXFLAGS) -c $(SRC)/scanpf.cpp -o $(BUILD)/scanpf.o
+	$(CXX) $(CXXFLAGS) -c $(SRC)/main.cpp -o $(BUILD)/main.o
 
 # unit_test: unit_test.o 000-CatchMain.o 
-# 	$(CXX) $(CXXFLAGS) $(BUILD_DIR)/unit_test.o $(BUILD_DIR)/000-CatchMain.o $(BUILD_DIR)/utility.o -o $(BUILD_DIR)/unit_test
+# 	$(CXX) $(CXXFLAGS) $(BUILD)/unit_test.o $(BUILD)/000-CatchMain.o $(BUILD)/utility.o -o $(BUILD)/unit_test
 
 # unit_test.o: 
-# 	$(CXX) $(CXXFLAGS) -c $(SRC_DIR)/unit_test.cpp -o $(BUILD_DIR)/unit_test.o
+# 	$(CXX) $(CXXFLAGS) -c $(SRC)/unit_test.cpp -o $(BUILD)/unit_test.o
 
 # 000-CatchMain.o: 
-# 	$(CXX) $(CXXFLAGS) -c $(SRC_DIR)/000-CatchMain.cpp -o $(BUILD_DIR)/000-CatchMain.o
+# 	$(CXX) $(CXXFLAGS) -c $(SRC)/000-CatchMain.cpp -o $(BUILD)/000-CatchMain.o
 
-# utility.o: $BUILD_DIR) $(SRC_DIR)/utility.cpp
-# 	$(CXX) $(CXXFLAGS) -c $(SRC_DIR)/utility.cpp -o $(BUILD_DIR)/utility.o
+# utility.o: $(BUILD) $(SRC)/utility.cpp
+# 	$(CXX) $(CXXFLAGS) -c $(SRC)/utility.cpp -o $(BUILD)/utility.o
 
 # install man pages
 .PHONY: man
@@ -63,13 +63,13 @@ unman:
 	mandb
 
 # create_build_dir:
-# 	if [ ! -d "./$BUILD_DIR)" ]; then 		\
-# 			mkdir $BUILD_DIR);				\
+# 	if [ ! -d "./$(BUILD)" ]; then 		\
+# 			mkdir $(BUILD);				\
 # 	fi
 
 .PHONY: install
 install: man scanpf
-	cp $(BUILD_DIR)/scanpf /usr/local/bin/scanpf
+	cp $(BUILD)/scanpf /usr/local/bin/scanpf
 
 .PHONY: uninstall
 uninstall: unman
@@ -78,17 +78,18 @@ uninstall: unman
 # clean all build
 .PHONY: test
 test: regx unit_test
-	$(BUILD_DIR)/unit_test
+	$(BUILD)/unit_test
 
 # just object files *.o
 .PHONY: cleanobj
 cleanobj:
-	#rm $(BUILD_DIR)/*o
+	rm $(BUILD)/*o
 
 # clean all build
 .PHONY: clean
 clean:
-	rm -rf $(BUILD_DIR)/$(APP_NAME) $(BUILD_DIR)/*o
+	rm -rf $(BUILD) 
 
 archive: all
-	git archive master | gzip > $(BUILD_DIR)/scanpf.latest.tgz
+	git archive master | gzip > $(BUILD)/scanpf.latest.tgz
+
