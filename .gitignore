@@ -13,6 +13,7 @@ depcomp
 /.deps
 install-sh
 /m4
+Makefile
 Makefile.in
 man
 missing
