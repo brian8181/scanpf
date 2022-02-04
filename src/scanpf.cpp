@@ -154,7 +154,8 @@ string& create_formated_output(const string& s, map<string, string>& map, string
         // replace <tag> with tag value
         formated_output.replace(output_str_pos, match.length(), tag_value);
         // set pos to end of replace
-        output_str_pos += tag_value.length();formated_output = s; 
+        output_str_pos += tag_value.length();
+        formated_output = s; 
     }
     return formated_output;
 }
