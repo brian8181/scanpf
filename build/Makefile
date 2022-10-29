@@ -88,7 +88,7 @@ cleanobj:
 # clean all build
 .PHONY: clean
 clean:
-	rm -rf $(BUILD_DIR)/$(APP_NAME) $(BUILD_DIR)/*o
+	-rm -rf $(BUILD_DIR)/$(APP_NAME) $(BUILD_DIR)/*o
 
 archive: all
 	git archive master | gzip > $(BUILD_DIR)/scanpf.latest.tgz
