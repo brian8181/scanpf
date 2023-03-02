@@ -9,6 +9,8 @@
 
 using namespace std;
 
+
+// file special chars =  / \ " ' * ; - ? [ ] ( ) ~ ! $ { } < > # @ & |
 // regx special chars = ^ $ \ . * + ? ( ) [ ] { } | :
 // character sets allowed pattern for tag names
 //const string MATCH_EXP_OPTIONAL = R"(\[?([A-z]+[A-z0-9]*)\]?)";
