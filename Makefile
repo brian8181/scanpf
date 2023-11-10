@@ -1,38 +1,22 @@
 MAKE_TEMPLATE = 1.1;
-# RUN BEFORE autoreconf -ivfm
 BUILD_VERSION = 0.1.0
 
 prefix = /usr/local
 mandir = $(prefix)/share/man
-man1dir = $(mandir)/man1
 
-# Compiler settings - Can be customized.
 CXX = g++
 CXXFLAGS = -Wall -std=c++11
 
-# lib settings
-# LDFLAGS =
-# INCLUDES= 
-# add addtional libs here
-
-# Makefile settings - Can be customized.
-APP_NAME = scanpf
-EXT = cpp
 SHELL = /bin/bash
-SRC = ~/src/scanpf/src
-BUILD = ~/src/scanpf/build
-
+APP_NAME = scanpf
 ROOT  = .
-SRCS = ./src
-BUILD = ./build
-OBJS = ./build
-
+SRC = src
+BUILD = build
+OBJS = build
 
 all: scanpf utility.o
-
 debug: CXXFLAGS += -DDEBUG -g
 debug: scanpf
-
 debuggdb: CXXFLAGS += -DDEBUG -ggdb
 debuggdb: scanpf
 
@@ -43,35 +27,19 @@ scanpf.o:
 	$(CXX) $(CXXFLAGS) -c $(SRC)/scanpf.cpp -o $(BUILD)/scanpf.o
 	$(CXX) $(CXXFLAGS) -c $(SRC)/main.cpp -o $(BUILD)/main.o
 
-# unit_test: unit_test.o 000-CatchMain.o 
-#  	$(CXX) $(CXXFLAGS) $(BUILD)/unit_test.o $(BUILD)/000-CatchMain.o $(BUILD)/utility.o -o $(BUILD)/unit_test
-
-# unit_test.o: 
-#  	$(CXX) $(CXXFLAGS) -c $(SRC)/unit_test.cpp -o $(BUILD)/unit_test.o
-
-# 000-CatchMain.o: 
-#  	$(CXX) $(CXXFLAGS) -c $(SRC)/000-CatchMain.cpp -o $(BUILD)/000-CatchMain.o
-
 utility.o: 
 	$(CXX) $(CXXFLAGS) -c $(SRC)/utility.cpp -o $(BUILD)/utility.o
 
-# install man pages
 .PHONY: man
 man: 
 	cp ../man/scanpf.1 /usr/local/share/man/man1
 	gzip /usr/local/share/man/man1/scanpf.1
 	mandblibtag.so.1.17.0
 	
-# uninstall man pages
 .PHONY: unman
 unman:
 	rm /usr/local/share/man/man1/scanpf.1.gz
 	mandb
-
-# create_BUILD:
-# 	if [ ! -d "./$BUILD)" ]; then 		\
-# 			mkdir $BUILD);				\
-# 	fi
 
 .PHONY: install
 install: man scanpf
