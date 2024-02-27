@@ -19,11 +19,12 @@ const string TAG_MATCH_EXP_STR = R"(\<([A-z]+[A-z0-9]*)\>)";                    
 const string TAG_VALUE_EXP_STR = R"(.*)";                                       // value between tags
 const regex TAG_EXP(TAG_MATCH_EXP_STR);
 
+const int DEFAULT_ARGC = 3;
+
 // declare functions prototypes
 void replace_all(string& s, const string& sub_str, const string& replace_str);
 map<string, string>& create_map(const string& pattern, const string& s, map<string, string>& map);
 string& create_formated_output(const string& s, map<string, string>& map, string& formated_output);
-void print_help(); 
 
 static struct option long_options[] =
 {
@@ -35,8 +36,18 @@ static struct option long_options[] =
 /*
 
  scanpf [opts] INPUT_PATTERN OUTPUT_PATTERN [INPUT ... ]
-  
+
 */
+
+void print_help()
+{
+    cout << "\n"
+         << FMT_BOLD << "scanpf" << FMT_RESET << " "
+         << "[OPTIONS] "
+         << FMT_UNDERLINE << "INPUT_PATTERN" << FMT_RESET << " "
+         << FMT_UNDERLINE << "OUTPUT_PATTERN" << FMT_RESET << " "
+         << FMT_UNDERLINE << "[INPUT ...]" << FMT_RESET << "\n\n";
+}
 
 int parse_options(int argc, char* argv[])
 {
@@ -44,7 +55,7 @@ int parse_options(int argc, char* argv[])
     int option_index = 0;
     bool file_flag = false;
     bool verbose_flag = false;
-    
+
     optind = 0; // is this needed ?????
     while((opt = getopt_long(argc, argv, "hvf", long_options, &option_index)) != -1)
     {
@@ -52,13 +63,13 @@ int parse_options(int argc, char* argv[])
         {
         case 'h':
             print_help();
-            return 0; 
+            return 0;
         case 'v':
             verbose_flag = true;
             break;
         case 'f':
             file_flag = true;
-            break; 
+            break;
         default: // unknown option before args
             fprintf(stderr, "Unexpected option, -h for help\n");
             return EXIT_FAILURE;
@@ -70,10 +81,10 @@ int parse_options(int argc, char* argv[])
         fprintf(stderr, "Expected argument after options, -h for help\n");
         exit(EXIT_FAILURE);
     }
-          
+
     if (verbose_flag)
     {
-        print_help(); 
+        print_help();
     }
 
     string input_pattern_str(argv[optind]);
@@ -109,7 +120,7 @@ int parse_options(int argc, char* argv[])
 map<string, string>& create_map(const string &pattern, const string &s, map<string, string> &map)
 {
     // create copy of pattern
-    string pattern_cpy = pattern; 
+    string pattern_cpy = pattern;
     // create regx from pattern
     replace_all(pattern_cpy, ".", "\\.");
     const string REPLACE_EXP_STR = "^" + regex_replace(pattern_cpy, TAG_EXP, "(" + TAG_VALUE_EXP_STR + ")") + "$";
@@ -129,13 +140,13 @@ map<string, string>& create_map(const string &pattern, const string &s, map<stri
         map.insert(make_pair(match.str(1), sm.str(idx++)));
     }
     return map;
-} 
+}
 
 string& create_formated_output(const string& s, map<string, string>& map, string& formated_output)
 {
     auto begin = sregex_iterator(s.begin(), s.end(), TAG_EXP);
     auto end = sregex_iterator();
-    formated_output = s; 
+    formated_output = s;
     int format_str_pos = 0;
     int format_str_end = 0;
     int output_str_pos = 0;
@@ -145,7 +156,7 @@ string& create_formated_output(const string& s, map<string, string>& map, string
     {
         smatch match = *iter;
         // get second match
-        string tag_value = map[match.str(1)]; 
+        string tag_value = map[match.str(1)];
         // get current match position
         format_str_pos = match.position();
         // set realtive to last end
@@ -157,7 +168,7 @@ string& create_formated_output(const string& s, map<string, string>& map, string
         formated_output.replace(output_str_pos, match.length(), tag_value);
         // set pos to end of replace
         output_str_pos += tag_value.length();
-        formated_output = s; 
+        formated_output = s;
     }
     return formated_output;
 }
@@ -174,16 +185,6 @@ void replace_all(string& s, const string& sub_str, const string& replace_str)
         pos += replace_str.length();
         pos = s.find(sub_str, pos);
     }
-}
-
-void print_help()
-{
-    cout << "\n"
-         << FMT_BOLD << "scanpf" << FMT_RESET << " "
-         << "[OPTIONS] "
-         << FMT_UNDERLINE << "INPUT_PATTERN" << FMT_RESET << " "
-         << FMT_UNDERLINE << "OUTPUT_PATTERN" << FMT_RESET << " "
-         << FMT_UNDERLINE << "[INPUT ...]" << FMT_RESET << "\n\n";
 }
 
 /*

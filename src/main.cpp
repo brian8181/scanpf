@@ -3,7 +3,7 @@
 #include <string>
 #include <unistd.h>         /* for STDIN_FILENO */
 #include <sys/select.h>     /* for pselect   */
-#include "main.hpp"
+#include "scanpf.hpp"
 
 using std::cin;
 using std::string;
