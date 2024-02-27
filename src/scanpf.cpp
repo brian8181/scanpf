@@ -56,7 +56,6 @@ int parse_options(int argc, char* argv[])
     bool file_flag = false;
     bool verbose_flag = false;
 
-    optind = 0; // is this needed ?????
     while((opt = getopt_long(argc, argv, "hvf", long_options, &option_index)) != -1)
     {
         switch (opt)
@@ -72,14 +71,14 @@ int parse_options(int argc, char* argv[])
             break;
         default: // unknown option before args
             fprintf(stderr, "Unexpected option, -h for help\n");
-            return EXIT_FAILURE;
+            return -1;
         }
     }
 
     if (optind != (argc - DEFAULT_ARGC)) // not correct number of args
     {
         fprintf(stderr, "Expected argument after options, -h for help\n");
-        exit(EXIT_FAILURE);
+        return -1;
     }
 
     if (verbose_flag)
@@ -186,36 +185,3 @@ void replace_all(string& s, const string& sub_str, const string& replace_str)
         pos = s.find(sub_str, pos);
     }
 }
-
-/*
-
-*USAGE*
-
-./scanpf -f "<track>: <artist> - <date> - <album> - <title>.<type>" "/<artist>/<date> - <album>/<track>. <title>.<type>" "remap_test_case_file_names.txt"
-./scanpf "<track>. <artist>-<album>-<title>.<type>" "/<artist>/<album>/<track>. <title>.<type>" "$(./ "/<artist>/<album>/<track>. <title>.<type>"  "<track>. <artist>-<album>-<title>.<type>" "/Pink Floyd/The Wall/10. Run Like Hell.mp3")"
-
-*DEMO OUTPUT*
-
-bash>$ cat ../test/remap_test_case_file_names.txt
-01: Bob Dylan - 1965 - Highway 61 Revisited - Like a Rolling Stone.mp3
-02: Bob Dylan - 1965 - Highway 61 Revisited - Tombstone Blues.mp3
-03: Bob Dylan - 1965 - Highway 61 Revisited - It Takes a Lot to Laugh, It Takes a Train to Cry.mp3
-04: Bob Dylan - 1965 - Highway 61 Revisited - From a Buick 6.mp3
-05: Bob Dylan - 1965 - Highway 61 Revisited - Ballad of a Thin Man.mp3
-06: Bob Dylan - 1965 - Highway 61 Revisited - Queen Jane Approximately.mp3
-07: Bob Dylan - 1965 - Highway 61 Revisited - Highway 61 Revisited.mp3
-08: Bob Dylan - 1965 - Highway 61 Revisited - Just Like Tom Thumb's Blues.mp3
-09: Bob Dylan - 1965 - Highway 61 Revisited - Desolation Row.mp3
-
-bash>$ ./scanpf -f "<track>: <artist> - <date> - <album> - <title>.<type>" "/<artist>/<date> - <album>/<track>. <title>.<type>" "../test/remap_test_case_file_names.txt"
-/Bob Dylan/1965 - Highway 61 Revisited/01. Like a Rolling Stone.mp3
-/Bob Dylan/1965 - Highway 61 Revisited/02. Tombstone Blues.mp3
-/Bob Dylan/1965 - Highway 61 Revisited/03. It Takes a Lot to Laugh, It Takes a Train to Cry.mp3
-/Bob Dylan/1965 - Highway 61 Revisited/04. From a Buick 6.mp3
-/Bob Dylan/1965 - Highway 61 Revisited/05. Ballad of a Thin Man.mp3
-/Bob Dylan/1965 - Highway 61 Revisited/06. Queen Jane Approximately.mp3
-/Bob Dylan/1965 - Highway 61 Revisited/07. Highway 61 Revisited.mp3
-/Bob Dylan/1965 - Highway 61 Revisited/08. Just Like Tom Thumb's Blues.mp3
-/Bob Dylan/1965 - Highway 61 Revisited/09. Desolation Row.mp3
-
-*/
