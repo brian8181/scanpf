@@ -10,5 +10,5 @@ enable_testing()
 # create executable
 add_executable(scanpf
     main.cpp
-    scanpfrx.cpp
+    scanpf.cpp
 )
