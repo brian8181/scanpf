@@ -1,7 +1,7 @@
 # Fri Nov 10 05:58:41 AM CST 2023
 MAKE_TEMPLATE = 1.1;
 BUILD_VERSION = 0.1.0
-prefix = /usr/local
+PREFIX = /usr/local
 
 CXX = g++
 CXXFLAGS = -Wall -std=c++11
@@ -31,7 +31,7 @@ $(BLD)/unit_test.o: $(SRC)/unit_test.cpp
 	$(CXX) $(CXXFLAGS) -c $(SRC)/unit_test.cpp -o $(BLD)/unit_test.o
 
 $(BLD)/000-CatchMain.o: $(SRC)/000-CatchMain.cpp
-	$(CXX) $(CXXFLAGS) -c $(SRC)/000-CatchMain.cpp -o $(BLD)/000-CatchMain.o
+	$(CXX) $(CXXFLAGS) -c $(SRC)/000-CatchMain.cpp -I-o $(BLD)/000-CatchMain.o
 
 $(BLD)/utility.o: $(SRC)/utility.cpp
 	$(CXX) $(CXXFLAGS) -c $(SRC)/utility.cpp -o $(OBJ)/utility.o

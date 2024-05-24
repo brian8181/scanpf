@@ -145,6 +145,9 @@ string& create_formated_output(const string& s, map<string, string>& map, string
 {
     auto begin = sregex_iterator(s.begin(), s.end(), TAG_EXP);
     auto end = sregex_iterator();
+
+    // std::string::const_iterator begin = s.begin();
+    // std::string::const_iterator end = s.end();
     formated_output = s;
     int format_str_pos = 0;
     int format_str_end = 0;
@@ -165,7 +168,7 @@ string& create_formated_output(const string& s, map<string, string>& map, string
         format_str_end = format_str_pos + match.length();
         // replace <tag> with tag value
         formated_output.replace(output_str_pos, match.length(), tag_value);
-        // set pos to end of replace
+        // set pos to end of replaceFF
         output_str_pos += tag_value.length();
         formated_output = s;
     }
