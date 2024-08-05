@@ -36,11 +36,15 @@ $(BLD)/000-CatchMain.o: $(SRC)/000-CatchMain.cpp
 $(BLD)/utility.o: $(SRC)/utility.cpp
 	$(CXX) $(CXXFLAGS) -c $(SRC)/utility.cpp -o $(OBJ)/utility.o
 
+
+.PHONY: cleanbuild
+cleanbuild: clean
+
 # clean all build
 .PHONY: clean
 clean:
-	-rm -f $(OBJ)/*
-	-rm -f $(BLD)/*
+	-rm -fr $(OBJ)/*
+	-rm -fr $(BLD)/*
 
 .PHONY: dist
 dist: all
