@@ -1,0 +1,60 @@
+# Fri Nov 10 05:58:41 AM CST 2023
+MAKE_TEMPLATE = 1.1;
+BUILD_VERSION = 0.1.0
+PREFIX = /usr/local
+
+CXX = g++
+CXXFLAGS = -Wall -std=c++11
+APP_NAME = scanpf
+ROOT  = .
+SRC = src
+BLD = build
+OBJ = build
+
+all: $(BLD)/scanpf $(BLD)/utility.o
+debug: CXXFLAGS += -DDEBUG -g
+debug: scanpf
+debuggdb: CXXFLAGS += -DDEBUG -ggdb
+debuggdb: scanpf
+
+$(BLD)/scanpf: $(BLD)/scanpf.o
+	$(CXX) $(CXXFLAGS) $(OBJ)/scanpf.o $(OBJ)/main.o -o $(BLD)/scanpf
+
+$(BLD)/scanpf.o: $(SRC)/main.cpp $(SRC)/scanpf.cpp
+	$(CXX) $(CXXFLAGS) -c $(SRC)/scanpf.cpp -o $(OBJ)/scanpf.o
+	$(CXX) $(CXXFLAGS) -c $(SRC)/main.cpp -o $(OBJ)/main.o
+
+$(BLD)/unit_test: $(BLD)/unit_test.o $(BLD)/000-CatchMain.o
+	$(CXX) $(CXXFLAGS) $(BLD)/unit_test.o $(BLD)/000-CatchMain.o $(BLD)/utility.o -o $(BLD)/unit_test
+
+$(BLD)/unit_test.o: $(SRC)/unit_test.cpp
+	$(CXX) $(CXXFLAGS) -c $(SRC)/unit_test.cpp -o $(BLD)/unit_test.o
+
+$(BLD)/000-CatchMain.o: $(SRC)/000-CatchMain.cpp
+	$(CXX) $(CXXFLAGS) -c $(SRC)/000-CatchMain.cpp -I-o $(BLD)/000-CatchMain.o
+
+$(BLD)/utility.o: $(SRC)/utility.cpp
+	$(CXX) $(CXXFLAGS) -c $(SRC)/utility.cpp -o $(OBJ)/utility.o
+
+
+.PHONY: cleanbuild
+cleanbuild: clean
+
+# clean all build
+.PHONY: clean
+clean:
+	-rm -fr $(OBJ)/*
+	-rm -fr $(BLD)/*
+
+.PHONY: dist
+dist: all
+	git archive master | gzip > $(BLD)/scanpf.latest.tgz
+
+.PHONY: help
+help:
+	@echo  '  all         - build all'
+	@echo  '  scampf      - build rx executable'
+	@echo  '  scanpf.o    - build not link'
+	@echo  '  clean       - remove most generated files but keep the config'
+	@echo  '  install     - copy files to usr/local'
+	@echo  '  dist        - create distribution, tar.gz'

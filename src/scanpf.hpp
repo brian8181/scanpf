@@ -4,11 +4,7 @@
 #include <string>
 #include <getopt.h>
 
-// functions
+void print_help();
 int parse_options(int argc, char *argv[]);
-//void print_help();
-
-// constants
-const int DEFAULT_ARGC = 3;
 
 #endif
