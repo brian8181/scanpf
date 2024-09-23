@@ -7,15 +7,16 @@
 #include "bash_color.h"
 #include "scanpf.hpp"
 
-using namespace std;
+using std::string;
+using std::cout;
+using std::endl;
+using std::map;
+using std::regex;
+using std::smatch;
+using std::sregex_iterator;
 
-
-// file special chars =  / \ " ' * ; - ? [ ] ( ) ~ ! $ { } < > # @ & |
-// regx special chars = ^ $ \ . * + ? ( ) [ ] { } | :
-// character sets allowed pattern for tag names
-//const string MATCH_EXP_OPTIONAL = R"(\[?([A-z]+[A-z0-9]*)\]?)";
+// patterns
 const string TAG_MATCH_EXP_STR = R"(\<([A-z]+[A-z0-9]*)\>)";                    // conservative match
-//const string TAG_MATCH_EXP_STR = R"((^|[^\[])<([A-z]+[A-z0-9]*)>($|[^\]]))";  // conservative match
 const string TAG_VALUE_EXP_STR = R"(.*)";                                       // value between tags
 const regex TAG_EXP(TAG_MATCH_EXP_STR);
 
@@ -38,6 +39,31 @@ static struct option long_options[] =
   
 */
 
+void print_help()
+{
+    cout << "\n"
+         << FMT_BOLD << "scanpf" << FMT_RESET << " "
+         << "[OPTIONS] "
+         << FMT_UNDERLINE << "INPUT_PATTERN" << FMT_RESET << " "
+         << FMT_UNDERLINE << "OUTPUT_PATTERN" << FMT_RESET << " "
+         << FMT_UNDERLINE << "[INPUT ...]" << FMT_RESET << "\n\n";
+}
+
+void replace_all(string& s, const string& sub_str, const string& replace_str)
+{
+    size_t pos = 0;
+    size_t len = s.length();
+
+    pos = s.find(sub_str, pos);
+    while (pos < len)
+    {
+        s.replace(pos, sub_str.length(), replace_str);
+        pos += replace_str.length();
+        pos = s.find(sub_str, pos);
+    }
+}
+
+
 int parse_options(int argc, char* argv[])
 {
     int opt = 0;
@@ -45,7 +71,7 @@ int parse_options(int argc, char* argv[])
     bool file_flag = false;
     bool verbose_flag = false;
     
-    optind = 0; // is this needed ?????
+    optind = 0;
     while((opt = getopt_long(argc, argv, "hvf", long_options, &option_index)) != -1)
     {
         switch (opt)
@@ -161,60 +187,3 @@ string& create_formated_output(const string& s, map<string, string>& map, string
     }
     return formated_output;
 }
-
-void replace_all(string& s, const string& sub_str, const string& replace_str)
-{
-    size_t pos = 0;
-    size_t len = s.length();
-
-    pos = s.find(sub_str, pos);
-    while (pos < len)
-    {
-        s.replace(pos, sub_str.length(), replace_str);
-        pos += replace_str.length();
-        pos = s.find(sub_str, pos);
-    }
-}
-
-void print_help()
-{
-    cout << "\n"
-         << FMT_BOLD << "scanpf" << FMT_RESET << " "
-         << "[OPTIONS] "
-         << FMT_UNDERLINE << "INPUT_PATTERN" << FMT_RESET << " "
-         << FMT_UNDERLINE << "OUTPUT_PATTERN" << FMT_RESET << " "
-         << FMT_UNDERLINE << "[INPUT ...]" << FMT_RESET << "\n\n";
-}
-
-/*
-
-*USAGE*
-
-./scanpf -f "<track>: <artist> - <date> - <album> - <title>.<type>" "/<artist>/<date> - <album>/<track>. <title>.<type>" "remap_test_case_file_names.txt"
-./scanpf "<track>. <artist>-<album>-<title>.<type>" "/<artist>/<album>/<track>. <title>.<type>" "$(./ "/<artist>/<album>/<track>. <title>.<type>"  "<track>. <artist>-<album>-<title>.<type>" "/Pink Floyd/The Wall/10. Run Like Hell.mp3")"
-
-*DEMO OUTPUT*
-
-bash>$ cat ../test/remap_test_case_file_names.txt
-01: Bob Dylan - 1965 - Highway 61 Revisited - Like a Rolling Stone.mp3
-02: Bob Dylan - 1965 - Highway 61 Revisited - Tombstone Blues.mp3
-03: Bob Dylan - 1965 - Highway 61 Revisited - It Takes a Lot to Laugh, It Takes a Train to Cry.mp3
-04: Bob Dylan - 1965 - Highway 61 Revisited - From a Buick 6.mp3
-05: Bob Dylan - 1965 - Highway 61 Revisited - Ballad of a Thin Man.mp3
-06: Bob Dylan - 1965 - Highway 61 Revisited - Queen Jane Approximately.mp3
-07: Bob Dylan - 1965 - Highway 61 Revisited - Highway 61 Revisited.mp3
-08: Bob Dylan - 1965 - Highway 61 Revisited - Just Like Tom Thumb's Blues.mp3
-09: Bob Dylan - 1965 - Highway 61 Revisited - Desolation Row.mp3
-
-bash>$ ./scanpf -f "<track>: <artist> - <date> - <album> - <title>.<type>" "/<artist>/<date> - <album>/<track>. <title>.<type>" "../test/remap_test_case_file_names.txt"
-/Bob Dylan/1965 - Highway 61 Revisited/01. Like a Rolling Stone.mp3
-/Bob Dylan/1965 - Highway 61 Revisited/02. Tombstone Blues.mp3
-/Bob Dylan/1965 - Highway 61 Revisited/03. It Takes a Lot to Laugh, It Takes a Train to Cry.mp3
-/Bob Dylan/1965 - Highway 61 Revisited/04. From a Buick 6.mp3
-/Bob Dylan/1965 - Highway 61 Revisited/05. Ballad of a Thin Man.mp3
-/Bob Dylan/1965 - Highway 61 Revisited/06. Queen Jane Approximately.mp3
-/Bob Dylan/1965 - Highway 61 Revisited/07. Highway 61 Revisited.mp3
-/Bob Dylan/1965 - Highway 61 Revisited/08. Just Like Tom Thumb's Blues.mp3
-/Bob Dylan/1965 - Highway 61 Revisited/09. Desolation Row.mp3
-
-*/
