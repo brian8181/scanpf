@@ -1,33 +1,38 @@
 #include <iostream>
 #include <cstring>
 #include <string>
+#include <sys/time.h>
+#include <sys/types.h>
 #include <unistd.h>         /* for STDIN_FILENO */
 #include <sys/select.h>     /* for pselect   */
+#include <getopt.h>
 #include "scanpf.hpp"
-
-using std::cin;
-using std::string;
 
 int stdin_ready (int filedes)
 {
-    fd_set set;
-    /* declare/initialize zero timeout */
-    struct timespec timeout = { .tv_sec = 0 };
-    /* Initialize the file descriptor set. */
-    FD_ZERO (&set);
-    FD_SET (filedes, &set);
-    /* check whestdin_ready is ready on filedes */
-    return pselect (filedes + 1, &set, NULL, NULL, &timeout, NULL);
+	// initialize the file descriptor set
+	fd_set set;
+	FD_ZERO(&set);
+	FD_SET(filedes, &set);
+#ifndef CYGWIN
+	// declare/initialize timespec
+	struct timespec timeout = { .tv_sec = 0 };
+	return pselect(filedes + 1, &set, NULL, NULL, &timeout, NULL);
+#else
+	// declare/initialize timeout
+	struct timeval timeout = { .tv_sec = 0 };
+	return select(filedes + 1, &set, NULL, NULL, &timeout);
+#endif
 }
 
 int main(int argc, char* argv[])
 {
 	try
 	{
-		if(stdin_ready (STDIN_FILENO))
+		if(stdin_ready(STDIN_FILENO))
 		{
-			string buffer;
-			cin >> buffer;
+			std::string buffer;
+			std::cin >> buffer;
 			// add piped buffer to end of argv
 			char* argvtmp[sizeof(char*) * argc+1];
 			memcpy(argvtmp, argv, sizeof(char*) * argc);
