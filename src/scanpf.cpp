@@ -64,7 +64,6 @@ void replace_all(string& s, const string& sub_str, const string& replace_str)
     }
 }
 
-
 int parse_options(int argc, char* argv[])
 {
     int opt = 0;
