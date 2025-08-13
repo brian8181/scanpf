@@ -82,3 +82,7 @@ help:
 	@echo  '  $(APP).o        - build not link'
 	@echo  '  $(APP)_test     - build cppunit test'
 	@echo  '  $(APP)_test.o   - build cppunit test'
+	@echo  '  scanrf          - build scanrf executable'
+	@echo  '  scanrf.o        - build not link'
+	@echo  '  scanrf_test     - build cppunit test'
+	@echo  '  scanrf_test.o   - build cppunit test'
