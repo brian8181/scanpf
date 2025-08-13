@@ -1,19 +1,16 @@
-# File Name:  scanpf/makefile
-# Build Date: Mon Mar  4 09:11:39 AM CST 2024
-# Version:    0.1.0
+# File Name:  makefile
+# Build Date: Tue, Aug 12, 2025  9:26:00 PM
+# Version:    0.1.1
 
 APP=scanpf
 CXX=g++
-<<<<<<< HEAD
 CXXFLAGS=-Wall -std=c++20 -fPIC
 CXXCPP?=
 LDFLAGS?=
 LIBS?=
-
 SRC=src
 BLD?=build
 OBJ?=build
-
 
 # lib settings
 LIBS = -L/usr/local/lib/
@@ -34,7 +31,9 @@ ifdef CYGWIN
 	LDFLAGS=$(INCLUDES) $(LIBS) /usr/lib/libcppunit.dll.a
 endif
 
-all: $(BLD)/scanpf $(BLD)/scanpf_test
+all: $(BLD)/scanpf $(BLD)/scanpf_test $(BLD)/scanrf $(BLD)/scanrf_test
+
+rebuild: clean all
 
 debug: CXXFLAGS += -DDEBUG -g
 debug: scanpf
@@ -43,42 +42,18 @@ debuggdb: scanpf
 
 $(BLD)/scanpf: $(BLD)/scanpf.o $(BLD)/main.o
 	$(CXX) $(CXXFLAGS) $(OBJ)/scanpf.o $(OBJ)/main.o -o $(BLD)/scanpf
-=======
-CXXFLAGS=-Wall -std=c++20
-CXXCPP?=
-LDFLAGS?=
-LIBS?=
 
-SRC=src
-BLD?=build
-OBJ?=build
+$(BLD)/scanrf: $(BLD)/scanrf.o $(BLD)/main.o
+	$(CXX) $(CXXFLAGS) $(OBJ)/scanrf.o $(OBJ)/main.o -o $(BLD)/scanrf
 
-ifndef RELEASE
-	CXXFLAGS +=-g -DDEBUG
-endif
->>>>>>> ec728969389dd3d4fdb47b62ad8b746373516d06
-
-ifdef CYGWIN
-	CXXFLAGS += -DCYGWIN
-endif
-
-<<<<<<< HEAD
 $(BLD)/$(APP)_test: $(OBJ)/$(APP).o $(OBJ)/$(APP)_test.o
+	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
+
+$(BLD)/scanrf_test: $(OBJ)/scanrf.o $(OBJ)/scanrf_test.o
 	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
 
 $(BLD)/unit_test: $(BLD)/unit_test.o $(BLD)/000-CatchMain.o
 	$(CXX) $(CXXFLAGS) $(BLD)/unit_test.o $(BLD)/000-CatchMain.o $(BLD)/utility.o -o $(BLD)/unit_test
-=======
-all: $(BLD)/$(APP) $(BLD)/$(APP)_test
->>>>>>> ec728969389dd3d4fdb47b62ad8b746373516d06
-
-rebuild: clean all
-
-$(BLD)/$(APP): $(OBJ)/$(APP).o $(OBJ)/main.o
-	$(CXX) $(CXXFLAGS) $^ -o $@
-
-$(BLD)/$(APP)_test: $(OBJ)/$(APP).o $(OBJ)/$(APP)_test.o
-	$(CXX) $(CXXFLAGS) $^ -lcppunit -o $@
 
 $(OBJ)/%.o: $(SRC)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $^ -o $@
