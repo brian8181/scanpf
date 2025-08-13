@@ -8,16 +8,22 @@
 using std::cin;
 using std::string;
 
+
 int stdin_ready (int filedes)
 {
-    fd_set set;
-    /* declare/initialize zero timeout */
-    struct timespec timeout = { .tv_sec = 0 };
-    /* Initialize the file descriptor set. */
-    FD_ZERO (&set);
-    FD_SET (filedes, &set);
-    /* check whestdin_ready is ready on filedes */
-    return pselect (filedes + 1, &set, NULL, NULL, &timeout, NULL);
+	// initialize the file descriptor set
+	fd_set set;
+	FD_ZERO(&set);
+	FD_SET(filedes, &set);
+#ifndef CYGWIN
+	// declare/initialize timespec
+	struct timespec timeout = { .tv_sec = 0 };
+	return pselect(filedes + 1, &set, NULL, NULL, &timeout, NULL);
+#else
+	// declare/initialize timeout
+	struct timeval timeout = { .tv_sec = 0 };
+	return select(filedes + 1, &set, NULL, NULL, &timeout);
+#endif
 }
 
 int main(int argc, char* argv[])

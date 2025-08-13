@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding='ISO-8859-1' standalone='yes' ?>
+<TestRun>
+  <FailedTests>
+    <FailedTest id="1">
+      <Name>scanpfTest::testNoOptions</Name>
+      <FailureType>Assertion</FailureType>
+      <Location>
+        <File>src/scanpf_test.cpp</File>
+        <Line>48</Line>
+      </Location>
+      <Message>assertion failed
+- Expression: parse_options(m_argc, m_argv) == 0
+</Message>
+    </FailedTest>
+    <FailedTest id="4">
+      <Name>scanpfTest::testOptionVerbose</Name>
+      <FailureType>Assertion</FailureType>
+      <Location>
+        <File>src/scanpf_test.cpp</File>
+        <Line>89</Line>
+      </Location>
+      <Message>assertion failed
+- Expression: parse_options(m_argc, m_argv) == 0
+</Message>
+    </FailedTest>
+    <FailedTest id="5">
+      <Name>scanpfTest::testOptionVerboseLong</Name>
+      <FailureType>Assertion</FailureType>
+      <Location>
+        <File>src/scanpf_test.cpp</File>
+        <Line>100</Line>
+      </Location>
+      <Message>assertion failed
+- Expression: parse_options(m_argc, m_argv) == 0
+</Message>
+    </FailedTest>
+    <FailedTest id="6">
+      <Name>scanpfTest::testPrettyOption</Name>
+      <FailureType>Assertion</FailureType>
+      <Location>
+        <File>src/scanpf_test.cpp</File>
+        <Line>111</Line>
+      </Location>
+      <Message>assertion failed
+- Expression: parse_options(m_argc, m_argv) == 0
+</Message>
+    </FailedTest>
+    <FailedTest id="7">
+      <Name>scanpfTest::testSingleOption</Name>
+      <FailureType>Assertion</FailureType>
+      <Location>
+        <File>src/scanpf_test.cpp</File>
+        <Line>122</Line>
+      </Location>
+      <Message>assertion failed
+- Expression: parse_options(m_argc, m_argv) == 0
+</Message>
+    </FailedTest>
+    <FailedTest id="8">
+      <Name>scanpfTest::testIgnoreCaseOption</Name>
+      <FailureType>Assertion</FailureType>
+      <Location>
+        <File>src/scanpf_test.cpp</File>
+        <Line>133</Line>
+      </Location>
+      <Message>assertion failed
+- Expression: parse_options(m_argc, m_argv) == 0
+</Message>
+    </FailedTest>
+    <FailedTest id="9">
+      <Name>scanpfTest::testOptionOption_IgnoreCase</Name>
+      <FailureType>Assertion</FailureType>
+      <Location>
+        <File>src/scanpf_test.cpp</File>
+        <Line>145</Line>
+      </Location>
+      <Message>assertion failed
+- Expression: parse_options(m_argc, m_argv) == 0
+</Message>
+    </FailedTest>
+  </FailedTests>
+  <SuccessfulTests>
+    <Test id="2">
+      <Name>scanpfTest::testOptionHelp</Name>
+    </Test>
+    <Test id="3">
+      <Name>scanpfTest::testOptionHelpLong</Name>
+    </Test>
+  </SuccessfulTests>
+  <Statistics>
+    <Tests>9</Tests>
+    <FailuresTotal>7</FailuresTotal>
+    <Errors>0</Errors>
+    <Failures>7</Failures>
+  </Statistics>
+</TestRun>

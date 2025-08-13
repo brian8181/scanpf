@@ -3,26 +3,53 @@ MAKE_TEMPLATE = 1.1;
 BUILD_VERSION = 0.1.0
 PREFIX = /usr/local
 
-CXX = g++
-CXXFLAGS = -Wall -std=c++11
-APP_NAME = scanpf
-ROOT  = .
-SRC = src
-BLD = build
-OBJ = build
+APP=scanpf
+CXX=g++
+CXXFLAGS=-Wall -std=c++20 -fPIC
+CXXCPP?=
+LDFLAGS?=
+LIBS?=
 
-all: $(BLD)/scanpf $(BLD)/utility.o
+SRC=src
+BLD?=build
+OBJ?=build
+
+
+# lib settings
+LIBS = -L/usr/local/lib/
+INCLUDES = -I/usr/local/include/cppunit/
+LDFLAGS = $(LIBS) $(INCLUDES)
+
+# lib settings
+LIBS=-L/usr/local/lib/
+INCLUDES=-I/usr/local/include/cppunit/
+
+ifndef RELEASE
+	CXXFLAGS +=-g -DDEBUG
+	LDFLAGS=$(INCLUDES) $(LIBS) /usr/local/libcppunit.a
+endif
+
+ifdef CYGWIN
+	CXXFLAGS +=-DCYGWIN
+	LDFLAGS=$(INCLUDES) $(LIBS) /usr/lib/libcppunit.dll.a
+endif
+
+all: $(BLD)/scanpf $(BLD)/scanpf_test
+
 debug: CXXFLAGS += -DDEBUG -g
 debug: scanpf
 debuggdb: CXXFLAGS += -DDEBUG -ggdb
 debuggdb: scanpf
 
-$(BLD)/scanpf: $(BLD)/scanpf.o
+$(BLD)/scanpf: $(BLD)/scanpf.o $(BLD)/main.o
 	$(CXX) $(CXXFLAGS) $(OBJ)/scanpf.o $(OBJ)/main.o -o $(BLD)/scanpf
 
 $(BLD)/scanpf.o: $(SRC)/main.cpp $(SRC)/scanpf.cpp
 	$(CXX) $(CXXFLAGS) -c $(SRC)/scanpf.cpp -o $(OBJ)/scanpf.o
 	$(CXX) $(CXXFLAGS) -c $(SRC)/main.cpp -o $(OBJ)/main.o
+
+$(BLD)/$(APP)_test: $(OBJ)/$(APP).o $(OBJ)/$(APP)_test.o
+	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
 
 $(BLD)/unit_test: $(BLD)/unit_test.o $(BLD)/000-CatchMain.o
 	$(CXX) $(CXXFLAGS) $(BLD)/unit_test.o $(BLD)/000-CatchMain.o $(BLD)/utility.o -o $(BLD)/unit_test
@@ -36,6 +63,8 @@ $(BLD)/000-CatchMain.o: $(SRC)/000-CatchMain.cpp
 $(BLD)/utility.o: $(SRC)/utility.cpp
 	$(CXX) $(CXXFLAGS) -c $(SRC)/utility.cpp -o $(OBJ)/utility.o
 
+$(OBJ)/%.o: $(SRC)/%.cpp
+	$(CXX) $(CXXFLAGS) -c $^ -o $@
 
 .PHONY: cleanbuild
 cleanbuild: clean
