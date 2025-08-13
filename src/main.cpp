@@ -1,8 +1,11 @@
 #include <iostream>
 #include <cstring>
 #include <string>
+#include <sys/time.h>
+#include <sys/types.h>
 #include <unistd.h>         /* for STDIN_FILENO */
 #include <sys/select.h>     /* for pselect   */
+#include <getopt.h>
 #include "scanpf.hpp"
 
 using std::cin;
@@ -30,10 +33,10 @@ int main(int argc, char* argv[])
 {
 	try
 	{
-		if(stdin_ready (STDIN_FILENO))
+		if(stdin_ready(STDIN_FILENO))
 		{
-			string buffer;
-			cin >> buffer;
+			std::string buffer;
+			std::cin >> buffer;
 			// add piped buffer to end of argv
 			char* argvtmp[sizeof(char*) * argc+1];
 			memcpy(argvtmp, argv, sizeof(char*) * argc);

@@ -1,10 +1,10 @@
-# Fri Nov 10 05:58:41 AM CST 2023
-MAKE_TEMPLATE = 1.1;
-BUILD_VERSION = 0.1.0
-PREFIX = /usr/local
+# File Name:  scanpf/makefile
+# Build Date: Mon Mar  4 09:11:39 AM CST 2024
+# Version:    0.1.0
 
 APP=scanpf
 CXX=g++
+<<<<<<< HEAD
 CXXFLAGS=-Wall -std=c++20 -fPIC
 CXXCPP?=
 LDFLAGS?=
@@ -43,47 +43,67 @@ debuggdb: scanpf
 
 $(BLD)/scanpf: $(BLD)/scanpf.o $(BLD)/main.o
 	$(CXX) $(CXXFLAGS) $(OBJ)/scanpf.o $(OBJ)/main.o -o $(BLD)/scanpf
+=======
+CXXFLAGS=-Wall -std=c++20
+CXXCPP?=
+LDFLAGS?=
+LIBS?=
 
-$(BLD)/scanpf.o: $(SRC)/main.cpp $(SRC)/scanpf.cpp
-	$(CXX) $(CXXFLAGS) -c $(SRC)/scanpf.cpp -o $(OBJ)/scanpf.o
-	$(CXX) $(CXXFLAGS) -c $(SRC)/main.cpp -o $(OBJ)/main.o
+SRC=src
+BLD?=build
+OBJ?=build
 
+ifndef RELEASE
+	CXXFLAGS +=-g -DDEBUG
+endif
+>>>>>>> ec728969389dd3d4fdb47b62ad8b746373516d06
+
+ifdef CYGWIN
+	CXXFLAGS += -DCYGWIN
+endif
+
+<<<<<<< HEAD
 $(BLD)/$(APP)_test: $(OBJ)/$(APP).o $(OBJ)/$(APP)_test.o
 	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
 
 $(BLD)/unit_test: $(BLD)/unit_test.o $(BLD)/000-CatchMain.o
 	$(CXX) $(CXXFLAGS) $(BLD)/unit_test.o $(BLD)/000-CatchMain.o $(BLD)/utility.o -o $(BLD)/unit_test
+=======
+all: $(BLD)/$(APP) $(BLD)/$(APP)_test
+>>>>>>> ec728969389dd3d4fdb47b62ad8b746373516d06
 
-$(BLD)/unit_test.o: $(SRC)/unit_test.cpp
-	$(CXX) $(CXXFLAGS) -c $(SRC)/unit_test.cpp -o $(BLD)/unit_test.o
+rebuild: clean all
 
-$(BLD)/000-CatchMain.o: $(SRC)/000-CatchMain.cpp
-	$(CXX) $(CXXFLAGS) -c $(SRC)/000-CatchMain.cpp -I-o $(BLD)/000-CatchMain.o
+$(BLD)/$(APP): $(OBJ)/$(APP).o $(OBJ)/main.o
+	$(CXX) $(CXXFLAGS) $^ -o $@
 
-$(BLD)/utility.o: $(SRC)/utility.cpp
-	$(CXX) $(CXXFLAGS) -c $(SRC)/utility.cpp -o $(OBJ)/utility.o
+$(BLD)/$(APP)_test: $(OBJ)/$(APP).o $(OBJ)/$(APP)_test.o
+	$(CXX) $(CXXFLAGS) $^ -lcppunit -o $@
 
 $(OBJ)/%.o: $(SRC)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $^ -o $@
 
-.PHONY: cleanbuild
-cleanbuild: clean
+.PHONY: install
+install:
+	cp ./$(BLD)/$(APP) ./$(prefix)/bin/$(APP)
 
-# clean all build
+.PHONY: uninstall
+uninstall:
+	-rm ./$(prefix)/bin/$(APP)
+
 .PHONY: clean
 clean:
-	-rm -fr $(OBJ)/*
-	-rm -fr $(BLD)/*
-
-.PHONY: dist
-dist: all
-	git archive master | gzip > $(BLD)/scanpf.latest.tgz
+	-rm -f ./$(OBJ)/*.o
+	-rm -f ./$(BLD)/*.o
+	-rm -f ./$(BLD)/$(APP)*
 
 .PHONY: help
 help:
-	@echo  '  all         - build all'
-	@echo  '  scampf      - build rx executable'
-	@echo  '  scanpf.o    - build not link'
-	@echo  '  clean       - remove most generated files but keep the config'
-	@echo  '  install     - copy files to usr/local'
-	@echo  '  dist        - create distribution, tar.gz'
+	@echo  '  all             - build all'
+	@echo  '  clean           - remove all files from build dir'
+	@echo  '  install         - copy files to usr/local'
+	@echo  '  dist            - create distribution, tar.gz'
+	@echo  '  $(APP)          - build $(APP) executable'
+	@echo  '  $(APP).o        - build not link'
+	@echo  '  $(APP)_test     - build cppunit test'
+	@echo  '  $(APP)_test.o   - build cppunit test'
