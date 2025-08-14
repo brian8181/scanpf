@@ -1,5 +1,5 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558 
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "2.0.0",
     "tasks": [
@@ -26,14 +26,25 @@
         {
             "label": "MAKE DEBUGGDB",
             "type": "shell",
-            "command": "make",
+            "command": "make -f /home/brian/src/scanpf/makefile CYGWIN=1",
             "problemMatcher": [
                 "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "type": "cmake",
+            "label": "CMake: build",
+            "command": "build",
+            "targets": [
+                "[N/A - Select Kit]"
             ],
             "group": {
                 "kind": "build",
                 "isDefault": true
-            }
+            },
+            "problemMatcher": [],
+            "detail": "CMake template build task"
         }
     ]
 }

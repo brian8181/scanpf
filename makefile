@@ -8,9 +8,9 @@ CXXFLAGS=-Wall -std=c++20 -fPIC
 CXXCPP?=
 LDFLAGS?=
 LIBS?=
-SRC=src
-BLD?=build
-OBJ?=build
+SRC=/home/brian/src/scanpf/src
+BLD=/home/brian/src/scanpf/build
+OBJ=$(BLD)
 
 # lib settings
 LIBS = -L/usr/local/lib/
@@ -22,7 +22,7 @@ LIBS=-L/usr/local/lib/
 INCLUDES=-I/usr/local/include/cppunit/
 
 ifndef RELEASE
-	CXXFLAGS +=-g -DDEBUG
+	CXXFLAGS +=-ggdb -DDEBUG
 	LDFLAGS=$(INCLUDES) $(LIBS) /usr/local/libcppunit.a
 endif
 

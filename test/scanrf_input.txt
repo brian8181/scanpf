@@ -1,0 +1,7 @@
+[Global, pattern, replace_pattern]
+test1 ouput1
+test2 output2
+test3   ouput3
+test4    output4
+test5       output5
+test6               output6
