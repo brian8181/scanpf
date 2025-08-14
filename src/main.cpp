@@ -31,23 +31,26 @@ int stdin_ready (int filedes)
 
 int main(int argc, char* argv[])
 {
-	try
-	{
-		if(stdin_ready(STDIN_FILENO))
-		{
-			std::string buffer;
-			std::cin >> buffer;
-			// add piped buffer to end of argv
-			char* argvtmp[sizeof(char*) * argc+1];
-			memcpy(argvtmp, argv, sizeof(char*) * argc);
-			argvtmp[argc] = &buffer[0];
-			argv = argvtmp;
-			++argc;
-		}
-		return parse_options(argc, argv);
-	}
-	catch(std::logic_error& ex)
-	{
-	 	std::cout << ex.what() << std::endl;
-	}
+	std::cout << __FILE__ << " : " << __LINE__ << " : " << "argc=" << argc << std::endl;
+	// try
+	// {
+	// 	if(stdin_ready(STDIN_FILENO))
+	// 	{
+	// 		std::string buffer;
+	// 		std::cin >> buffer;
+	// 		// add piped buffer to end of argv
+	// 		char* argvtmp[sizeof(char*) * argc+1];
+	// 		memcpy(argvtmp, argv, sizeof(char*) * argc);
+	// 		argvtmp[argc] = &buffer[0];
+	// 		argv = argvtmp;
+	// 		++argc;
+	// 	}
+	// 	return parse_options(argc, argv);
+	// }
+	// catch(std::logic_error& ex)
+	// {
+	//  	std::cout << ex.what() << std::endl;
+	// }
+
+	return parse_options(argc, argv);
 }

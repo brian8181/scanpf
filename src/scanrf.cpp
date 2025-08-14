@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cassert>
 #include <string>
 #include <regex>
 #include <map>
@@ -67,47 +68,48 @@ void replace_all(string& s, const string& sub_str, const string& replace_str)
 int parse_options(int argc, char* argv[])
 {
     cout << "parse options : " << argc  << endl;
-    // int opt = 0;
-    // int option_index = 0;
-    // bool file_flag = false;
-    // bool verbose_flag = false;
+    int opt = 0;
+    int option_index = 0;
+    bool file_flag = false;
+    bool verbose_flag = false;
 
-    // optind = 0;
-    // while((opt = getopt_long(argc, argv, "hvf", long_options, &option_index)) != -1)
-    // {
-    //     switch (opt)
-    //     {
-    //     case 'h':
-    //         print_help();
-    //         return 0;
-    //     case 'v':
-    //         verbose_flag = true;
-    //         break;
-    //     case 'f':
-    //         file_flag = true;
-    //         break;
-    //     default: // unknown option before args
-    //         fprintf(stderr, "Unexpected option, -h for help\n");
-    //         return -1;
-    //     }
-    // }
+    optind = 0;
+    while((opt = getopt_long(argc, argv, "hvf", long_options, &option_index)) != -1)
+    {
+        switch (opt)
+        {
+        case 'h':
+            print_help();
+            //return 0;
+        case 'v':
+            verbose_flag = true;
+            break;
+        case 'f':
+            file_flag = true;
+            break;
+        default: // unknown option before args
+            fprintf(stderr, "Unexpected option, -h for help\n");
+            //return -1;
+        }
+    }
 
-    // if (optind != (argc - DEFAULT_ARGC)) // not correct number of args
-    // {
-    //     fprintf(stderr, "Expected argument after options, -h for help\n");
-    //     return -1;
-    // }
+    if (optind != (argc - DEFAULT_ARGC)) // not correct number of args
+    {
+        fprintf(stderr, "Expected argument after options, -h for help\n");
+        //return -1;
+    }
 
-    // if (verbose_flag)
-    // {
-    //     print_help();
-    // }
+    if (verbose_flag)
+    {
+        print_help();
+    }
 
-    // if (file_flag)
-    // {
-    //     cout << "File option is not implemented yet." << endl;
-    //     return -1;
-    // }
+    if (file_flag)
+    {
+        cout << "File option is not implemented yet." << endl;
+        //return -1;
+    }
+
     string patterns_file(argv[1]);
     string target_file(argv[2]);
     string formated_output;
@@ -121,7 +123,6 @@ int parse_options(int argc, char* argv[])
     cout << __FILE__ << " : " << __LINE__ << " : " << patterns_file << endl;
     while (std::getline(file, line))
     {
-        cout << __FILE__ << " : " << __LINE__ << " : " << patterns_file << endl;
         tag_map.clear();
         // skip empty lines
         string GRP_EXPR = R"(\[(.*)\])";
@@ -131,8 +132,14 @@ int parse_options(int argc, char* argv[])
         // create smatch
         smatch sm;
         regex_match(line, sm, EXPR);
-        cout << sm.str(1) << endl;
-
+        //cout << sm.str(0) << endl;
+        for (const auto& m : sm)
+        {
+            assert(m.matched);
+            std::cout << "m: [" << m << "], m.length(): " << m.length() << ", "
+                     "*m.first: '" << *m.first << "', "
+                     "*m.second: '" << *m.second << "'\n";
+        }
         // auto begin = sregex_iterator(line.begin(), line.end(), EXPR);
         // auto end = sregex_iterator();
 
@@ -162,6 +169,7 @@ int parse_options(int argc, char* argv[])
         //     string value = sm[3].str();
         //     tag_map[name] = value;
         // }
+        cout << __FILE__ << " : " << __LINE__ << " : " << patterns_file << endl;
     }
 
     //testing
@@ -170,6 +178,7 @@ int parse_options(int argc, char* argv[])
     //     cout << pair.first << " = " << pair.second << endl;
     // }
 
+    cout << __FILE__ << " : " << __LINE__ << " : " << patterns_file << endl;
     return 0;
 }
 
