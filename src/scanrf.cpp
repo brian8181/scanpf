@@ -119,66 +119,36 @@ int parse_options(int argc, char* argv[])
     std::ifstream file(patterns_file);
     std::ifstream target_strm(target_file);
 
-    string group_name;
     cout << __FILE__ << " : " << __LINE__ << " : " << patterns_file << endl;
     while (std::getline(file, line))
     {
+        cout << __FILE__ << " : " << __LINE__ << " : " << "getline->" << line << endl;
         tag_map.clear();
         // skip empty lines
         string GRP_EXPR = R"(\[(.*)\])";
         string NAME_VALUE_EXPR = R"((\w+)\s*=\s*(\w+))";
         string EXPR_STR = "^\\s*((" + GRP_EXPR + ")" + "|" + "(" + NAME_VALUE_EXPR + "))\\s*$";
+        //regex  EXPR(EXPR_STR);
         regex  EXPR(".*");
+
         // create smatch
         smatch sm;
         regex_match(line, sm, EXPR);
-        //cout << sm.str(0) << endl;
-        for (const auto& m : sm)
+        std::cout << "m: [" << sm.str() << "], m.length(): " << sm.str().length() << endl;
+        if (sm[1].matched) // group match
         {
-            assert(m.matched);
-            std::cout << "m: [" << m << "], m.length(): " << m.length() << ", "
-                     "*m.first: '" << *m.first << "', "
-                     "*m.second: '" << *m.second << "'\n";
+            string group_name = sm[1].str();
+            cout << "Group: " << group_name << endl;
         }
-        // auto begin = sregex_iterator(line.begin(), line.end(), EXPR);
-        // auto end = sregex_iterator();
-
-        // for (sregex_iterator i = begin; i != end; ++i)
-        // {
-        //     smatch match = *i;
-        //     if (match[1].matched) // group match
-        //     {
-        //         group_name = match[1].str();
-        //         cout << "Group: " << group_name << endl;
-        //     }
-        //     else if (match[2].matched && match[3].matched) // name value match
-        //     {
-        //         string name = match[2].str();
-        //         string value = match[3].str();
-        //         tag_map[name] = value;
-        //         cout << "Tag: " << name << " = " << value << endl;
-        //     }
-        //}
-        // if (sm[1].matched)
-        // {
-        //     group_name = sm[1].str();
-        // }
-        // else if (sm[2].matched && sm[3].matched)
-        // {
-        //     string name = sm[2].str();
-        //     string value = sm[3].str();
-        //     tag_map[name] = value;
-        // }
+        else if (sm[2].matched && sm[3].matched) // name value match
+        {
+            string name = sm[2].str();
+            string value = sm[3].str();
+            tag_map[name] = value;
+            cout << "Tag: " << name << " = " << value << endl;
+        }
         cout << __FILE__ << " : " << __LINE__ << " : " << patterns_file << endl;
     }
-
-    //testing
-    // for (const auto& pair : tag_map)
-    // {
-    //     cout << pair.first << " = " << pair.second << endl;
-    // }
-
-    cout << __FILE__ << " : " << __LINE__ << " : " << patterns_file << endl;
     return 0;
 }
 

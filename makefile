@@ -60,7 +60,7 @@ $(OBJ)/%.o: $(SRC)/%.cpp
 
 .PHONY: install
 install:
-	cp ./$(BLD)/$(APP) ./$(prefix)/bin/$(APP)
+	cp $(BLD)/$(APP) ./$(prefix)/bin/$(APP)
 
 .PHONY: uninstall
 uninstall:
@@ -68,9 +68,9 @@ uninstall:
 
 .PHONY: clean
 clean:
-	-rm -f ./$(OBJ)/*.o
-	-rm -f ./$(BLD)/*.o
-	-rm -f ./$(BLD)/$(APP)*
+	-rm -f $(OBJ)/*.o
+	-rm -f $(BLD)/*.o
+	-rm -f $(BLD)/$(APP)*
 
 .PHONY: help
 help:
