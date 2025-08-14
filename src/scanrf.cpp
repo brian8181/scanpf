@@ -124,28 +124,32 @@ int parse_options(int argc, char* argv[])
     {
         cout << __FILE__ << " : " << __LINE__ << " : " << "getline->" << line << endl;
         tag_map.clear();
+
+        #define _GROUP_ 2
+        #define _NAME_ 4
+        #define _VALUE_ 5
+
         // skip empty lines
-        string GRP_EXPR = R"(\[(.*)\])";
-        string NAME_VALUE_EXPR = R"((\w+)\s*=\s*(\w+))";
-        string EXPR_STR = "^\\s*((" + GRP_EXPR + ")" + "|" + "(" + NAME_VALUE_EXPR + "))\\s*$";
-        //regex  EXPR(EXPR_STR);
-        regex  EXPR(".*");
+        string GRP_EXPR = "\\[(.*)\\]";
+        string NAME_VALUE_EXPR = "(\\w+)\\s*=\\s*(\\w+)";
+        string EXPR_STR = "^\\s*(" + GRP_EXPR + ")|(" + NAME_VALUE_EXPR + ")\\s*$";
+        regex  EXPR(EXPR_STR);
 
         // create smatch
         smatch sm;
         regex_match(line, sm, EXPR);
         std::cout << "m: [" << sm.str() << "], m.length(): " << sm.str().length() << endl;
-        if (sm[1].matched) // group match
+        if (sm[_GROUP_].matched) // group match
         {
-            string group_name = sm[1].str();
+            string group_name = sm[_GROUP_].str();
             cout << "Group: " << group_name << endl;
         }
-        else if (sm[2].matched && sm[3].matched) // name value match
+        else if (sm[_NAME_].matched && sm[_VALUE_].matched) // name value match
         {
-            string name = sm[2].str();
-            string value = sm[3].str();
+            string name = sm[_NAME_].str();
+            string value = sm[_VALUE_].str();
             tag_map[name] = value;
-            cout << "Tag: " << name << " = " << value << endl;
+            cout << "Tag: \"" << name << "\" = \"" << value << "\"" << endl;
         }
         cout << __FILE__ << " : " << __LINE__ << " : " << patterns_file << endl;
     }
