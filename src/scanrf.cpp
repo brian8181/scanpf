@@ -115,7 +115,7 @@ int parse_options(int argc, char* argv[])
     string formated_output;
     string line;
     // iter all lines
-    map<string, string> tag_map;
+    map<string, std::pair<string, string>> tag_map;
     std::ifstream file(patterns_file);
     std::ifstream target_strm(target_file);
 
@@ -123,15 +123,16 @@ int parse_options(int argc, char* argv[])
     while (std::getline(file, line))
     {
         cout << __FILE__ << " : " << __LINE__ << " : " << "getline->" << line << endl;
-        tag_map.clear();
+        //tag_map.clclear();
 
         #define _GROUP_ 2
         #define _NAME_ 4
         #define _VALUE_ 5
+        #define _REPL_EXPR_ 6
 
         // skip empty lines
         string GRP_EXPR = "\\[(.*)\\]";
-        string NAME_VALUE_EXPR = "(\\w+)\\s*=\\s*(\\w+)";
+        string NAME_VALUE_EXPR = "(\\w+)\\s+\"(.*)\"\\s+\"(.*)\"";
         string EXPR_STR = "^\\s*(" + GRP_EXPR + ")|(" + NAME_VALUE_EXPR + ")\\s*$";
         regex  EXPR(EXPR_STR);
 
@@ -148,8 +149,11 @@ int parse_options(int argc, char* argv[])
         {
             string name = sm[_NAME_].str();
             string value = sm[_VALUE_].str();
-            tag_map[name] = value;
-            cout << "Tag: \"" << name << "\" = \"" << value << "\"" << endl;
+            string repl_expr = sm[_REPL_EXPR_].str();
+            cout << "Name: " << name << ", Value: " << value << ", Replacement: " << repl_expr << endl;
+            // tag_map[name].first = value;
+            // tag_map[name].second = sm[_REPL_EXPR_].str();
+            // cout << "Tag: \"" << name << "\" = \"" << value << "\"" << " (repl: " << tag_map[name].second << ")"     << endl;
         }
         cout << __FILE__ << " : " << __LINE__ << " : " << patterns_file << endl;
     }
