@@ -1,8 +1,6 @@
-#ifndef _SCANPF_HPP
-#define _SCANPF_HPP
+#ifndef _SCANRF_HPP_
+#define _SCANRF_HPP_
 
-#include <string>
-#include <getopt.h>
 
 void print_help();
 int parse_options(int argc, char *argv[]);

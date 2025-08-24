@@ -9,36 +9,67 @@ project(scanpf VERSION 0.1.0
                 DESCRIPTION "Very nice project"
                 LANGUAGES CXX)
 
+#[=[
+
+FetchContent_Declare(
+catch
+GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+GIT_TAG
+v2.13.6
+)
+# CMake 3.14+
+FetchContent_MakeAvailable(catch)
+
+]=]
 set(FOO boo)
 
-#target_link_libraries(another PUBLIC one)
+if(CMAKE_SYSTEM_NAME STREQUAL "CYGWIN")
+    message(STATUS "Building under Cygwin, defining CYGWIN macro")
+    add_definitions(-DCYGWIN)
+endif()
+
+find_package(fmt REQUIRED)
+
+if(NOT fmt_FOUND)
+    message(FATAL_ERROR "fmt not found")
+endif()
 
 add_executable(scanpf
     src/main.cpp
     src/scanpf.cpp
     src/regex_ext.cpp
 )
-#[=[
+target_link_libraries(scanpf PRIVATE fmt::fmt)
+
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(CPPUNIT REQUIRED cppunit)
+
+if(NOT CPPUNIT_FOUND)
+    message(FATAL_ERROR "CPPUnit not found")
+endif()
+
 add_executable(scanpf_test
-    src/main.cpp
-    src/scanpf.cpp
+            src/scanpf.cpp
     src/regex_ext.cpp
     src/scanpf_test.cpp
 )
-]=]
+
+target_include_directories(scanpf_test PRIVATE ${CPPUNIT_INCLUDE_DIRS})
+target_link_libraries(scanpf_test PRIVATE ${CPPUNIT_LIBRARIES})
+
 add_executable(scanrf
-    src/main.cpp
-    src/scanrf.cpp
-    src/regex_ext.cpp
+        src/scanrf.cpp
+        src/regex_ext.cpp
 )
-#[=[
+target_link_libraries(scanrf PRIVATE fmt::fmt)
 add_executable(scanrf_test
-    src/main.cpp
-    src/scanpf.cpp
-    src/regex_ext.cpp
     src/scanrf_test.cpp
 )
-]=]
+
+target_include_directories(scanrf_test PRIVATE ${CPPUNIT_INCLUDE_DIRS})
+target_link_libraries(scanrf_test PRIVATE ${CPPUNIT_LIBRARIES})
+
+
 
 #[=[
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")

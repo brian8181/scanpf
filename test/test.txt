@@ -1,0 +1,13 @@
+<TYPE>=(int|long|float)
+<SYMBOL>=[a-zA-Z_][a-zA-Z0-9_]*
+
+pointer_space "^<TYPE>([*&]) <SYMBOL>;$" "<TYPE> *<SYMBOL>;"
+
+# group names
+
+brian@alpine2:~/src/rx >$ echo  "(/*<name1>*/)(/*<name2>*/)(/*<name3>*/)" | sed -E "s/\(\/\*<([^>]*)>\*\/\)/\"\1\"\n/g" > tmp.txt                              │              Providing --head multiple times has no extra effect.  Disable it
+brian@alpine2:~/src/rx >$ cat -n tmp.txt                                                                                                                       │              again with --no-head.
+     1  "name1"                                                                                                                                                │
+     2  "name2"                                                                                                                                                │              Example:
+     3  "name3"                                                                                                                                                │              curl -I https://example.com
+     4

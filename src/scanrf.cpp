@@ -16,9 +16,11 @@ using std::regex;
 using std::smatch;
 using std::sregex_iterator;
 
+map<string, std::pair<string, string>> tag_map;
+
 // patterns
 const string TAG_MATCH_EXP_STR = R"(\<([A-z]+[A-z0-9]*)\>)";                    // conservative match
-const string TAG_VALUE_EXP_STR = R"(.*)";                                       // value between tags
+const string TAG_EXPR_EXP_STR = R"(.*)";                                       // value between tags
 const regex TAG_EXP(TAG_MATCH_EXP_STR);
 
 const int DEFAULT_ARGC = 3;
@@ -110,79 +112,78 @@ int parse_options(int argc, char* argv[])
         //return -1;
     }
 
-    string patterns_file(argv[1]);
+    string rules_file(argv[1]);
     string target_file(argv[2]);
-    string formated_output;
-    string line;
-    // iter all lines
-    map<string, std::pair<string, string>> tag_map;
-    std::ifstream file(patterns_file);
+    std::ifstream file(rules_file);
     std::ifstream target_strm(target_file);
 
-    cout << __FILE__ << " : " << __LINE__ << " : " << patterns_file << endl;
+    string line;
+    cout << __FILE__ << " : " << __LINE__ << endl;
     while (std::getline(file, line))
     {
-        cout << __FILE__ << " : " << __LINE__ << " : " << "getline->" << line << endl;
-        //tag_map.clclear();
+        cout << "line=" << line << " " << __FILE__ << " : " << __LINE__ << endl;
+        tag_map.clear();
 
         #define _GROUP_ 2
         #define _NAME_ 4
-        #define _VALUE_ 5
+        #define _EXPR_ 5
         #define _REPL_EXPR_ 6
 
-        // skip empty lines
+        string group_names_expr = "\\(/\\* <(.*)> \\*/(.*)\\)";
+        string test = "(" + /* <name> */ + "\\w+)\\s+\"(" + /* <expr1> */ + "[^\"]*)\"\\s+\"(" + /* <expr2> */ + "[^\"]*)\"";
         string GRP_EXPR = "\\[(.*)\\]";
-        string NAME_VALUE_EXPR = "(\\w+)\\s+\"(.*)\"\\s+\"(.*)\"";
-        string EXPR_STR = "^\\s*(" + GRP_EXPR + ")|(" + NAME_VALUE_EXPR + ")\\s*$";
+        string NAME_EXPR_EXPR = "(\\w+)\\s+\"([^\"]*)\"\\s+\"([^\"]*)\"";
+        string EXPR_STR = "^\\s*(" + GRP_EXPR + ")|(" + NAME_EXPR_EXPR + ")\\s*$";
         regex  EXPR(EXPR_STR);
 
-        // create smatch
         smatch sm;
         regex_match(line, sm, EXPR);
-        std::cout << "m: [" << sm.str() << "], m.length(): " << sm.str().length() << endl;
         if (sm[_GROUP_].matched) // group match
         {
             string group_name = sm[_GROUP_].str();
             cout << "Group: " << group_name << endl;
         }
-        else if (sm[_NAME_].matched && sm[_VALUE_].matched) // name value match
+        else if (sm[_NAME_].matched && sm[_EXPR_].matched && sm[_REPL_EXPR_].matched)
         {
             string name = sm[_NAME_].str();
-            string value = sm[_VALUE_].str();
+            string expr = sm[_EXPR_].str();
             string repl_expr = sm[_REPL_EXPR_].str();
-            cout << "Name: " << name << ", Value: " << value << ", Replacement: " << repl_expr << endl;
-            // tag_map[name].first = value;
-            // tag_map[name].second = sm[_REPL_EXPR_].str();
-            // cout << "Tag: \"" << name << "\" = \"" << value << "\"" << " (repl: " << tag_map[name].second << ")"     << endl;
+            std::pair<string, string> tag_pair(expr, repl_expr);
+            tag_map[name] = tag_pair;
+            cout << "Tag: " << name << "\t" << tag_map[name].first << "\t" << tag_map[name].second << endl;
         }
-        cout << __FILE__ << " : " << __LINE__ << " : " << patterns_file << endl;
+        else
+        {
+            cout << "Invalid line format: "<< __FILE__ << " : " << __LINE__ << endl;
+            continue;
+        }
     }
     return 0;
 }
 
-map<string, string>& create_map(const string &pattern, const string &s, map<string, string> &map)
+map<string, pair<string, string>>& create_map(const string &pattern, const string &s, map<string, pair<string, string>> &map)
 {
-//     // create copy of pattern
-//     string pattern_cpy = pattern;
-//     // create regx from pattern
-//     replace_all(pattern_cpy, ".", "\\.");
-//     const string REPLACE_EXP_STR = "^" + regex_replace(pattern_cpy, TAG_EXP, "(" + TAG_VALUE_EXP_STR + ")") + "$";
-//     const regex REPLACE_EXP(REPLACE_EXP_STR);
-//     // create smatch
-//     smatch sm;
-//     regex_match(s, sm, REPLACE_EXP);
-//     // iterate through tag matches and create map
-//     int idx = 1;
+    // create copy of pattern
+    string pattern_cpy = pattern;
+    // create regx from pattern
+    // replace_all(pattern_cpy, ".", "\\.");
+    // const string REPLACE_EXP_STR = "^" + regex_replace(pattern_cpy, TAG_EXP, "(" + TAG_EXPR_EXP_STR + ")") + "$";
+    // const regex REPLACE_EXP(REPLACE_EXP_STR);
+    // // create smatch
+    // smatch sm;
+    // regex_match(s, sm, REPLACE_EXP);
+    // // iterate through tag matches and create map
+    // int idx = 1;
 
-//     auto begin = sregex_iterator(pattern_cpy.begin(), pattern_cpy.end(), TAG_EXP);
-//     auto end = sregex_iterator();
+    // auto begin = sregex_iterator(pattern_cpy.begin(), pattern_cpy.end(), TAG_EXP);
+    // auto end = sregex_iterator();
 
-//     for (sregex_iterator i = begin; i != end; ++i)
-//     {
-//         smatch match = *i;
-//         map.insert(make_pair(match.str(1), sm.str(idx++)));
-//     }
-     return map;
+    // for (sregex_iterator i = begin; i != end; ++i)
+    // {
+    //     smatch match = *i;
+    //     map.insert(make_pair(match.str(1), sm.str(idx++)));
+    // }
+    //  return map;
 }
 
 string& create_formated_output(const string& s, map<string, string>& map, string& formated_output)

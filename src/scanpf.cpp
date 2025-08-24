@@ -70,7 +70,7 @@ int parse_options(int argc, char* argv[])
     int option_index = 0;
     bool file_flag = false;
     bool verbose_flag = false;
-    
+
     optind = 0;
     while((opt = getopt_long(argc, argv, "hvf", long_options, &option_index)) != -1)
     {
@@ -177,7 +177,7 @@ string& create_formated_output(const string& s, map<string, string>& map, string
         string tag_value = map[match.str(1)];
         // get current match position
         format_str_pos = match.position();
-        // set realtive to last end
+        // set relative to last end
         relative_pos = format_str_pos - format_str_end;
         output_str_pos += relative_pos;
         // set new end

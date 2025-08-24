@@ -18,7 +18,7 @@
 #include <cppunit/XmlOutputter.h>
 #include <netinet/in.h>
 #include "scanpf_test.hpp"
-#include <string.h>
+#include <string.h> 
 
 using namespace CppUnit;
 using namespace std;
